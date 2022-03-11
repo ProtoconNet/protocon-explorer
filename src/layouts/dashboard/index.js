@@ -23,87 +23,71 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
+// import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
+// import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+// import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
+// import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
-import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import Nodes from "./components/Nodes";
+import Tokens from "./components/Tokens";
+import Blocks from "./components/Blocks";
+import Operations from "./components/Operations";
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+  // const { sales } = reportsLineChartData;
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox py={3}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
-                }}
+          <Grid item xs={12} md={12} lg={3}>
+            <MDBox mb={3}>
+              <ComplexStatisticsCard color="error" icon="widgets" title="Blocks" count={281} />
+            </MDBox>
+            <MDBox mb={3}>
+              <Nodes
+                network="network-01"
+                nodes={[
+                  { node: "node01", address: "https://127.0.0.1:12345", isLive: true },
+                  { node: "node02", address: "https://127.0.0.1:12345", isLive: true },
+                  { node: "node03", address: "https://127.0.0.1:12345", isLive: true },
+                  { node: "node04", address: "https://127.0.0.1:12345", isLive: false },
+                ]}
+              />
+            </MDBox>
+            <MDBox mb={3}>
+              <Tokens
+                tokens={[
+                  { currency: "PEN", amount: "100000000000000000000000", fee: { feeer: "nil" } },
+                  {
+                    currency: "MCC",
+                    amount: "9800000000000000000000",
+                    fee: { feeer: "fixed", amount: 1.2 },
+                  },
+                  {
+                    currency: "CWC",
+                    amount: "18882999999900000000",
+                    fee: { feeer: "ratio", ratio: 0.1 },
+                  },
+                ]}
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
-                }}
-              />
+          <Grid item xs={12} md={12} lg={9}>
+            <MDBox mb={3}>
+              <Blocks />
             </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
+            <MDBox mb={3}>
+              <Operations />
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox mt={4.5}>
+        {/* <MDBox py={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
@@ -131,29 +115,8 @@ function Dashboard() {
                 />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
-              </MDBox>
-            </Grid>
           </Grid>
-        </MDBox>
-        <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid>
-          </Grid>
-        </MDBox>
+        </MDBox> */}
       </MDBox>
       <Footer />
     </DashboardLayout>

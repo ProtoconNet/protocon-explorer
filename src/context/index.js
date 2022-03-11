@@ -62,6 +62,9 @@ function reducer(state, action) {
     case "DARKMODE": {
       return { ...state, darkMode: action.value };
     }
+    case "NETWORK": {
+      return { ...state, network: action.value };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -72,15 +75,16 @@ function reducer(state, action) {
 function MaterialUIControllerProvider({ children }) {
   const initialState = {
     miniSidenav: false,
-    transparentSidenav: false,
+    transparentSidenav: true,
     whiteSidenav: false,
     sidenavColor: "info",
     transparentNavbar: true,
-    fixedNavbar: true,
+    fixedNavbar: false,
     openConfigurator: false,
     direction: "ltr",
     layout: "dashboard",
-    darkMode: false,
+    darkMode: true,
+    network: process.env.REACT_APP_BLOCKCHAIN_NETWORK,
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -119,6 +123,7 @@ const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_CONFIGUR
 const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
+const setNetwork = (dispatch, value) => dispatch({ type: "NETWORK", value });
 
 export {
   MaterialUIControllerProvider,
@@ -133,4 +138,5 @@ export {
   setDirection,
   setLayout,
   setDarkMode,
+  setNetwork,
 };

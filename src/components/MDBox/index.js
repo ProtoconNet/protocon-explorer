@@ -35,6 +35,7 @@ const MDBox = forwardRef(
 MDBox.defaultProps = {
   variant: "contained",
   bgColor: "transparent",
+  border: "0px solid transparent",
   color: "dark",
   opacity: 1,
   borderRadius: "none",
@@ -44,7 +45,7 @@ MDBox.defaultProps = {
 
 // Typechecking props for the MDBox
 MDBox.propTypes = {
-  variant: PropTypes.oneOf(["contained", "gradient"]),
+  variant: PropTypes.oneOf(["contained", "gradient", "outlined"]),
   bgColor: PropTypes.string,
   color: PropTypes.string,
   opacity: PropTypes.number,
@@ -56,11 +57,13 @@ MDBox.propTypes = {
     "info",
     "success",
     "warning",
+    "link",
     "error",
     "light",
     "dark",
     "none",
   ]),
+  border: PropTypes.string,
 };
 
 export default MDBox;

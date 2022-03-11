@@ -75,6 +75,12 @@ const boxShadows = {
       coloredShadows.success,
       0.4
     )}`,
+    link: `${boxShadow([0, 4], [20, 0], black.main, 0.14)}, ${boxShadow(
+      [0, 7],
+      [10, -5],
+      coloredShadows.success,
+      0.4
+    )}`,
     warning: `${boxShadow([0, 4], [20, 0], black.main, 0.14)}, ${boxShadow(
       [0, 7],
       [10, -5],

@@ -37,16 +37,15 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import Blocks from "layouts/blocks";
+import Operations from "layouts/operations";
+import Documents from "layouts/documents";
+import Accounts from "layouts/accounts";
+import Tokens from "layouts/tokens";
+import Nodes from "layouts/nodes";
 
 const routes = [
   {
@@ -59,59 +58,105 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tables",
-    key: "tables",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
-    component: <Tables />,
+    name: "Nodes",
+    key: "nodes",
+    icon: <Icon fontSize="small">earbuds</Icon>,
+    route: "/nodes",
+    component: <Nodes />,
   },
   {
     type: "collapse",
-    name: "Billing",
-    key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
+    name: "Blocks",
+    key: "blocks",
+    icon: <Icon fontSize="small">widgets</Icon>,
+    route: "/blocks",
+    component: <Blocks />,
   },
   {
     type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
-    component: <RTL />,
+    name: "Blocks",
+    key: "blocks",
+    icon: <Icon fontSize="small">widgets</Icon>,
+    route: "/block/:key",
+    param: true,
+    component: <Blocks />,
   },
   {
     type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
+    name: "Operations",
+    key: "operations",
+    icon: <Icon fontSize="small">compare_arrows</Icon>,
+    route: "/operations",
+    component: <Operations />,
   },
   {
     type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
+    name: "Operations",
+    key: "operations",
+    param: true,
+    icon: <Icon fontSize="small">compare_arrows</Icon>,
+    route: "/operation/:hash",
+    component: <Operations />,
   },
   {
     type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
+    name: "Documents",
+    key: "documents",
+    icon: <Icon fontSize="small">article</Icon>,
+    route: "/documents",
+    component: <Documents />,
   },
   {
     type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
+    name: "Document",
+    key: "document",
+    param: true,
+    icon: <Icon fontSize="small">article</Icon>,
+    route: "/document/:id",
+    component: <Documents />,
+  },
+  {
+    type: "collapse",
+    name: "Accounts",
+    key: "accounts",
+    icon: <Icon fontSize="small">account_balance_wallet</Icon>,
+    route: "/accounts",
+    component: <Accounts />,
+  },
+  {
+    type: "collapse",
+    name: "Accounts",
+    key: "accounts",
+    param: true,
+    icon: <Icon fontSize="small">account_balance_wallet</Icon>,
+    route: "/accounts/:key",
+    component: <Accounts />,
+  },
+  {
+    type: "collapse",
+    name: "Accounts",
+    key: "accounts",
+    param: true,
+    icon: <Icon fontSize="small">account_balance_wallet</Icon>,
+    route: "/account/:address",
+    component: <Accounts />,
+  },
+  {
+    type: "collapse",
+    name: "Tokens",
+    key: "tokens",
+    icon: <Icon fontSize="small">paid</Icon>,
+    route: "/tokens",
+    component: <Tokens />,
+  },
+  {
+    type: "collapse",
+    name: "Tokens",
+    key: "tokens",
+    param: true,
+    icon: <Icon fontSize="small">paid</Icon>,
+    route: "/token/:currency",
+    component: <Tokens />,
   },
 ];
 

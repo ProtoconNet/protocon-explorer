@@ -40,6 +40,7 @@ MDAvatar.propTypes = {
     "secondary",
     "info",
     "success",
+    "link",
     "warning",
     "error",
     "light",

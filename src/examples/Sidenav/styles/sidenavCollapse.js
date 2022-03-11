@@ -15,16 +15,18 @@ Coded by www.creative-tim.com
 function collapseItem(theme, ownerState) {
   const { palette, transitions, breakpoints, boxShadows, borders, functions } = theme;
   const { active, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = ownerState;
+  // const { active, transparentSidenav, whiteSidenav, darkMode } = ownerState;
 
   const { white, transparent, dark, grey, gradients } = palette;
+  // const { white, transparent, dark, grey } = palette;
   const { md } = boxShadows;
   const { borderRadius } = borders;
-  const { pxToRem, rgba, linearGradient } = functions;
+  // const { pxToRem, rgba, linearGradient } = functions;
+  const { pxToRem, rgba } = functions;
 
   return {
-    background: active
-      ? linearGradient(gradients[sidenavColor].main, gradients[sidenavColor].state)
-      : transparent.main,
+    background: transparent.main,
+    border: active ? `1px solid ${gradients[sidenavColor].main}` : "0px solid transparent",
     color:
       (transparentSidenav && !darkMode && !active) || (whiteSidenav && !active)
         ? dark.main

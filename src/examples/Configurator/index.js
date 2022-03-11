@@ -13,26 +13,26 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
 // react-github-btn
-import GitHubButton from "react-github-btn";
+// import GitHubButton from "react-github-btn";
 
 // @mui material components
 import Divider from "@mui/material/Divider";
-import Switch from "@mui/material/Switch";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
+// import Switch from "@mui/material/Switch";
+// import IconButton from "@mui/material/IconButton";
+// import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // @mui icons
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
+// import TwitterIcon from "@mui/icons-material/Twitter";
+// import FacebookIcon from "@mui/icons-material/Facebook";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
+// import MDButton from "components/MDButton";
 
 // Custom styles for the Configurator
 import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
@@ -41,91 +41,118 @@ import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
 import {
   useMaterialUIController,
   setOpenConfigurator,
-  setTransparentSidenav,
-  setWhiteSidenav,
-  setFixedNavbar,
-  setSidenavColor,
-  setDarkMode,
+  // setTransparentSidenav,
+  // setWhiteSidenav,
+  // setFixedNavbar,
+  // setSidenavColor,
+  // setDarkMode,
+  setNetwork,
 } from "context";
+import MDButton from "components/MDButton";
+// import { Switch } from "@mui/material";
+import { useState } from "react";
+import MDInput from "components/MDInput";
+import MDSnackbar from "components/MDSnackbar";
 
 function Configurator() {
   const [controller, dispatch] = useMaterialUIController();
   const {
     openConfigurator,
-    fixedNavbar,
-    sidenavColor,
-    transparentSidenav,
-    whiteSidenav,
+    // fixedNavbar,
+    // sidenavColor,
+    // transparentSidenav,
+    // whiteSidenav,
     darkMode,
+    network,
   } = controller;
-  const [disabled, setDisabled] = useState(false);
-  const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
+  // const [disabled, setDisabled] = useState(false);
+  // const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
 
   // Use the useEffect hook to change the button state for the sidenav type based on window size.
-  useEffect(() => {
-    // A function that sets the disabled state of the buttons for the sidenav type.
-    function handleDisabled() {
-      return window.innerWidth > 1200 ? setDisabled(false) : setDisabled(true);
-    }
+  // useEffect(() => {
+  //   // A function that sets the disabled state of the buttons for the sidenav type.
+  //   function handleDisabled() {
+  //     return window.innerWidth > 1200 ? setDisabled(false) : setDisabled(true);
+  //   }
 
-    // The event listener that's calling the handleDisabled function when resizing the window.
-    window.addEventListener("resize", handleDisabled);
+  //   // The event listener that's calling the handleDisabled function when resizing the window.
+  //   window.addEventListener("resize", handleDisabled);
 
-    // Call the handleDisabled function to set the state with the initial value.
-    handleDisabled();
+  //   // Call the handleDisabled function to set the state with the initial value.
+  //   handleDisabled();
 
-    // Remove event listener on cleanup
-    return () => window.removeEventListener("resize", handleDisabled);
-  }, []);
+  //   // Remove event listener on cleanup
+  //   return () => window.removeEventListener("resize", handleDisabled);
+  // }, []);
 
   const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
-  const handleTransparentSidenav = () => {
-    setTransparentSidenav(dispatch, true);
-    setWhiteSidenav(dispatch, false);
+  // const handleTransparentSidenav = () => {
+  //   setTransparentSidenav(dispatch, true);
+  //   setWhiteSidenav(dispatch, false);
+  // };
+  // const handleWhiteSidenav = () => {
+  //   setWhiteSidenav(dispatch, true);
+  //   setTransparentSidenav(dispatch, false);
+  // };
+  // const handleDarkSidenav = () => {
+  //   setWhiteSidenav(dispatch, false);
+  //   setTransparentSidenav(dispatch, false);
+  // };
+  // const handleFixedNavbar = () => setFixedNavbar(dispatch, !fixedNavbar);
+  // const handleDarkMode = () => setDarkMode(dispatch, !darkMode);
+
+  const [newNetwork, setNewNetwork] = useState(network);
+  const [infoSB, setInfoSB] = useState(false);
+  const openInfoSB = () => setInfoSB(true);
+  const closeInfoSB = () => setInfoSB(false);
+  const renderInfoSB = (
+    <MDSnackbar
+      icon="notifications"
+      title="Network Changed Completed"
+      content={`Current Network: ${newNetwork}`}
+      dateTime="now"
+      open={infoSB}
+      onClose={closeInfoSB}
+      close={closeInfoSB}
+    />
+  );
+  const handleNetwork = (_network) => {
+    setNetwork(dispatch, _network);
+    openInfoSB();
   };
-  const handleWhiteSidenav = () => {
-    setWhiteSidenav(dispatch, true);
-    setTransparentSidenav(dispatch, false);
-  };
-  const handleDarkSidenav = () => {
-    setWhiteSidenav(dispatch, false);
-    setTransparentSidenav(dispatch, false);
-  };
-  const handleFixedNavbar = () => setFixedNavbar(dispatch, !fixedNavbar);
-  const handleDarkMode = () => setDarkMode(dispatch, !darkMode);
 
   // sidenav type buttons styles
-  const sidenavTypeButtonsStyles = ({
-    functions: { pxToRem },
-    palette: { white, dark, background },
-    borders: { borderWidth },
-  }) => ({
-    height: pxToRem(39),
-    background: darkMode ? background.sidenav : white.main,
-    color: darkMode ? white.main : dark.main,
-    border: `${borderWidth[1]} solid ${darkMode ? white.main : dark.main}`,
+  // const sidenavTypeButtonsStyles = ({
+  //   functions: { pxToRem },
+  //   palette: { white, dark, background },
+  //   borders: { borderWidth },
+  // }) => ({
+  //   height: pxToRem(39),
+  //   background: darkMode ? background.sidenav : white.main,
+  //   color: darkMode ? white.main : dark.main,
+  //   border: `${borderWidth[1]} solid ${darkMode ? white.main : dark.main}`,
 
-    "&:hover, &:focus, &:focus:not(:hover)": {
-      background: darkMode ? background.sidenav : white.main,
-      color: darkMode ? white.main : dark.main,
-      border: `${borderWidth[1]} solid ${darkMode ? white.main : dark.main}`,
-    },
-  });
+  //   "&:hover, &:focus, &:focus:not(:hover)": {
+  //     background: darkMode ? background.sidenav : white.main,
+  //     color: darkMode ? white.main : dark.main,
+  //     border: `${borderWidth[1]} solid ${darkMode ? white.main : dark.main}`,
+  //   },
+  // });
 
   // sidenav type active button styles
-  const sidenavTypeActiveButtonStyles = ({
-    functions: { pxToRem, linearGradient },
-    palette: { white, gradients, background },
-  }) => ({
-    height: pxToRem(39),
-    background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
-    color: darkMode ? background.sidenav : white.main,
+  // const sidenavTypeActiveButtonStyles = ({
+  //   functions: { pxToRem, linearGradient },
+  //   palette: { white, gradients, background },
+  // }) => ({
+  //   height: pxToRem(39),
+  //   background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
+  //   color: darkMode ? background.sidenav : white.main,
 
-    "&:hover, &:focus, &:focus:not(:hover)": {
-      background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
-      color: darkMode ? background.sidenav : white.main,
-    },
-  });
+  //   "&:hover, &:focus, &:focus:not(:hover)": {
+  //     background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
+  //     color: darkMode ? background.sidenav : white.main,
+  //   },
+  // });
 
   return (
     <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
@@ -138,10 +165,10 @@ function Configurator() {
         px={3}
       >
         <MDBox>
-          <MDTypography variant="h5">Material UI Configurator</MDTypography>
-          <MDTypography variant="body2" color="text">
-            See our dashboard options.
-          </MDTypography>
+          <MDTypography variant="h5">Settings</MDTypography>
+          {/* <MDTypography variant="body2" color="text">
+            Set network.
+          </MDTypography> */}
         </MDBox>
 
         <Icon
@@ -159,12 +186,11 @@ function Configurator() {
         </Icon>
       </MDBox>
 
-      <Divider />
+      {/* <Divider /> */}
 
-      <MDBox pt={0.5} pb={3} px={3}>
-        <MDBox>
+      {/* <MDBox pt={0.5} pb={3} px={3}> */}
+      {/* <MDBox>
           <MDTypography variant="h6">Sidenav Colors</MDTypography>
-
           <MDBox mb={0.5}>
             {sidenavColors.map((color) => (
               <IconButton
@@ -206,9 +232,9 @@ function Configurator() {
               />
             ))}
           </MDBox>
-        </MDBox>
+        </MDBox> */}
 
-        <MDBox mt={3} lineHeight={1}>
+      {/* <MDBox mt={3} lineHeight={1}>
           <MDTypography variant="h6">Sidenav Type</MDTypography>
           <MDTypography variant="button" color="text">
             Choose between different sidenav types.
@@ -266,8 +292,8 @@ function Configurator() {
               White
             </MDButton>
           </MDBox>
-        </MDBox>
-        <MDBox
+        </MDBox> */}
+      {/* <MDBox
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -278,14 +304,35 @@ function Configurator() {
 
           <Switch checked={fixedNavbar} onChange={handleFixedNavbar} />
         </MDBox>
-        <Divider />
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" lineHeight={1}>
-          <MDTypography variant="h6">Light / Dark</MDTypography>
-
-          <Switch checked={darkMode} onChange={handleDarkMode} />
+        <Divider /> */}
+      {/* <MDBox display="flex" justifyContent="space-between" alignItems="center" lineHeight={1}>
+        <MDTypography variant="h6">Light / Dark</MDTypography>
+        <Switch checked={darkMode} onChange={handleDarkMode} />
+      </MDBox> */}
+      <Divider />
+      <MDBox display="block" justifyContent="start" alignItems="center" lineHeight={1}>
+        {/* <MDTypography variant="h6">Network</MDTypography> */}
+        <MDBox display="flex" justifyContent="space-between" alignItems="center">
+          <MDInput
+            type="text"
+            value={newNetwork}
+            label="NETWORK ADDRESS"
+            size="small"
+            onChange={(e) => setNewNetwork(e.target.value)}
+          />
+          <MDButton
+            variant="text"
+            size="lg"
+            color={darkMode ? "white" : "dark"}
+            onClick={() => handleNetwork(newNetwork)}
+          >
+            <Icon>check</Icon>
+          </MDButton>
         </MDBox>
-        <Divider />
-        <MDBox mt={3} mb={2}>
+      </MDBox>
+      {renderInfoSB}
+      <Divider />
+      {/* <MDBox mt={3} mb={2}>
           <MDButton
             component={Link}
             href="https://www.creative-tim.com/learning-lab/react/quick-start/material-dashboard/"
@@ -297,8 +344,8 @@ function Configurator() {
           >
             view documentation
           </MDButton>
-        </MDBox>
-        <MDBox display="flex" justifyContent="center">
+        </MDBox> */}
+      {/* <MDBox display="flex" justifyContent="center">
           <GitHubButton
             href="https://github.com/creativetimofficial/material-dashboard-react"
             data-icon="octicon-star"
@@ -308,8 +355,8 @@ function Configurator() {
           >
             Star
           </GitHubButton>
-        </MDBox>
-        <MDBox mt={2} textAlign="center">
+        </MDBox> */}
+      {/* <MDBox mt={2} textAlign="center">
           <MDBox mb={0.5}>
             <MDTypography variant="h6">Thank you for sharing!</MDTypography>
           </MDBox>
@@ -339,7 +386,7 @@ function Configurator() {
             </MDButton>
           </MDBox>
         </MDBox>
-      </MDBox>
+      </MDBox> */}
     </ConfiguratorRoot>
   );
 }

@@ -19,8 +19,16 @@ import { styled } from "@mui/material/styles";
 
 export default styled(Typography)(({ theme, ownerState }) => {
   const { palette, typography, functions } = theme;
-  const { color, textTransform, verticalAlign, fontWeight, opacity, textGradient, darkMode } =
-    ownerState;
+  const {
+    color,
+    textTransform,
+    verticalAlign,
+    fontWeight,
+    opacity,
+    textGradient,
+    darkMode,
+    textDecoration,
+  } = ownerState;
 
   const { gradients, transparent, white } = palette;
   const { fontWeightLight, fontWeightRegular, fontWeightMedium, fontWeightBold } = typography;
@@ -58,9 +66,13 @@ export default styled(Typography)(({ theme, ownerState }) => {
     opacity,
     textTransform,
     verticalAlign,
-    textDecoration: "none",
+    textDecoration,
     color: colorValue,
     fontWeight: fontWeights[fontWeight] && fontWeights[fontWeight],
     ...(textGradient && gradientStyles()),
+
+    "&:hover, &:focus, &:active": {
+      opacity: "0.5",
+    },
   };
 });

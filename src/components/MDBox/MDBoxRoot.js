@@ -19,7 +19,8 @@ import { styled } from "@mui/material/styles";
 
 export default styled(Box)(({ theme, ownerState }) => {
   const { palette, functions, borders, boxShadows } = theme;
-  const { variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow } = ownerState;
+  const { variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow, border } =
+    ownerState;
 
   const { gradients, grey, white } = palette;
   const { linearGradient } = functions;
@@ -43,6 +44,7 @@ export default styled(Box)(({ theme, ownerState }) => {
     "secondary",
     "info",
     "success",
+    "link",
     "warning",
     "error",
     "dark",
@@ -57,6 +59,7 @@ export default styled(Box)(({ theme, ownerState }) => {
     "secondary",
     "info",
     "success",
+    "link",
     "warning",
     "error",
     "light",
@@ -118,5 +121,6 @@ export default styled(Box)(({ theme, ownerState }) => {
     color: colorValue,
     borderRadius: borderRadiusValue,
     boxShadow: boxShadowValue,
+    border,
   };
 });
