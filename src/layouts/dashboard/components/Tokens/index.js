@@ -27,7 +27,7 @@ import MDButton from "components/MDButton";
 import Token from "./Token";
 
 function Tokens({ tokens }) {
-  const renderNodes = () => (
+  const renderTokens = () => (
     <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
       {tokens.map((x) => (
         <Token currency={x.currency} amount={x.amount} fee={x.fee} />
@@ -53,7 +53,7 @@ function Tokens({ tokens }) {
           view all
         </MDButton>
       </MDBox>
-      <MDBox p={2}>{renderNodes()}</MDBox>
+      <MDBox p={2}>{renderTokens()}</MDBox>
     </Card>
   );
 }

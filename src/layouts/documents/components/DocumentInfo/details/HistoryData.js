@@ -53,7 +53,7 @@ function HistoryData({ name, account, date, usage, app, noGutter }) {
         </MDBox>
         <MDOverviewAttribute title="Name" value={name} />
         <MDOverviewAttribute title="Date" value={date} />
-        <MDOverviewAttribute title="Account" value={account} onClick={() => {}} link />
+        <MDOverviewAttribute title="Account" value={account} url={`/account/${account}`} />
         <MDOverviewAttribute title="Usage" value={usage} />
         <MDOverviewAttribute title="Application" value={app} />
       </MDBox>

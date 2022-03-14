@@ -322,7 +322,7 @@ function Configurator() {
           />
           <MDButton
             variant="text"
-            size="lg"
+            size="large"
             color={darkMode ? "white" : "dark"}
             onClick={() => handleNetwork(newNetwork)}
           >

@@ -26,42 +26,53 @@ function Raw({ data, onClick }) {
   const { darkMode } = controller;
 
   return (
-    <Card id="delete-account">
-      <MDBox p={3}>
-        <MDBox p={2} display="flex" justifyContent="space-between" alignItems="center">
-          <MDTypography variant="h6" fontWeight="medium">
-            Raw Data
-          </MDTypography>
+    <MDBox mt={3}>
+      <Card id="delete-account">
+        <MDBox py={1} px={3}>
+          <MDBox p={2} display="flex" justifyContent="space-between" alignItems="center">
+            <MDTypography variant="h6" fontWeight="medium">
+              Raw Data
+            </MDTypography>
 
-          <MDBox display="flex" alignItems="center" mt={{ xs: 2, sm: 0 }} ml={{ xs: -1.5, sm: 0 }}>
-            <MDButton variant="outlined" color={darkMode ? "white" : "dark"} onClick={onClick}>
-              <Icon>arrow_back_icon</Icon>&nbsp;back
-            </MDButton>
+            <MDBox
+              display="flex"
+              alignItems="center"
+              mt={{ xs: 2, sm: 0 }}
+              ml={{ xs: -1.5, sm: 0 }}
+            >
+              <MDButton variant="outlined" color={darkMode ? "white" : "dark"} onClick={onClick}>
+                <Icon>arrow_back_icon</Icon>&nbsp;back
+              </MDButton>
+            </MDBox>
+          </MDBox>
+          <MDBox p={2}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <MDBox
+                  borderRadius="lg"
+                  p={3}
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                  }}
+                >
+                  <pre
+                    style={{
+                      fontSize: "0.8rem",
+                      color: "white",
+                      wordWrap: "break-all",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {JSON.stringify(data, null, 4)}
+                  </pre>
+                </MDBox>
+              </Grid>
+            </Grid>
           </MDBox>
         </MDBox>
-        <MDBox p={2}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <MDBox
-                borderRadius="lg"
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                p={3}
-                sx={{
-                  border: ({ borders: { borderWidth, borderColor } }) =>
-                    `${borderWidth[1]} solid ${borderColor}`,
-                }}
-              >
-                <MDTypography variant="h6" fontWeight="medium">
-                  {data && JSON.stringify(data, null, 4)}
-                </MDTypography>
-              </MDBox>
-            </Grid>
-          </Grid>
-        </MDBox>
-      </MDBox>
-    </Card>
+      </Card>
+    </MDBox>
   );
 }
 

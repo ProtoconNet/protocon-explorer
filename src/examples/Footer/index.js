@@ -26,7 +26,7 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React base styles
 import typography from "assets/theme/base/typography";
 
-function Footer({ company, links }) {
+function Footer({ company, links, marginTop }) {
   const { href, name } = company;
   const { size } = typography;
 
@@ -49,6 +49,7 @@ function Footer({ company, links }) {
       justifyContent="space-between"
       alignItems="center"
       px={1.5}
+      mt={marginTop}
     >
       <MDBox
         display="flex"
@@ -94,12 +95,14 @@ function Footer({ company, links }) {
 Footer.defaultProps = {
   company: { href: "https://protocon.io/", name: "Protocon Network" },
   links: [{ href: "https://www.creative-tim.com/license", name: "License" }],
+  marginTop: 0,
 };
 
 // Typechecking props for the Footer
 Footer.propTypes = {
   company: PropTypes.objectOf(PropTypes.string),
   links: PropTypes.arrayOf(PropTypes.object),
+  marginTop: PropTypes.number,
 };
 
 export default Footer;

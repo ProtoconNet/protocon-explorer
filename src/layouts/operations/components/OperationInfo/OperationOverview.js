@@ -77,17 +77,17 @@ function OperationOverview({
         <MDOverviewAttribute title="Operation Hash" value={hash} />
         <MDOverviewAttribute title="Fact Hash" value={factHash} />
         {sender !== "-" ? (
-          <MDOverviewAttribute title="Sender" value={sender} onClick={() => {}} link />
+          <MDOverviewAttribute title="Sender" value={sender} url={`/account/${sender}`} />
         ) : (
           false
         )}
         {target !== "-" ? (
-          <MDOverviewAttribute title="Target" value={target} onClick={() => {}} link />
+          <MDOverviewAttribute title="Target" value={target} url={`/account/${target}`} />
         ) : (
           false
         )}
         <MDOverviewAttribute title="Confirmed At" value={confirmed} />
-        <MDOverviewAttribute title="Block Height" value={height} onClick={() => {}} link />
+        <MDOverviewAttribute title="Block Height" value={height} url={`/block/${height}`} />
         <MDOverviewAttribute
           title="In State"
           value={inState ? "true" : "false"}

@@ -20,7 +20,21 @@ import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function Node({ node, address, isLive, noGutter }) {
+function Node({ node, address, alive, noGutter }) {
+  let aliveText;
+  let aliveColor;
+
+  if (alive) {
+    aliveText = "active";
+    aliveColor = "success";
+  } else if (address !== "https://0.0.0.0:0") {
+    aliveText = "not found";
+    aliveColor = "error";
+  } else {
+    aliveText = "-";
+    aliveColor = "text";
+  }
+
   return (
     <MDBox
       component="li"
@@ -32,7 +46,11 @@ function Node({ node, address, isLive, noGutter }) {
       mb={noGutter ? 0 : 1}
     >
       <MDBox lineHeight={1.125}>
-        <MDTypography display="block" variant="button" fontWeight="medium">
+        <MDTypography
+          display="block"
+          variant="button"
+          fontWeight={node === "empty" ? "regular" : "medium"}
+        >
           {node}
         </MDTypography>
         <MDTypography variant="caption" fontWeight="regular" color="text">
@@ -40,8 +58,8 @@ function Node({ node, address, isLive, noGutter }) {
         </MDTypography>
       </MDBox>
       <MDBox display="flex" alignItems="center">
-        <MDTypography variant="button" fontWeight="regular" color={isLive ? "success" : "error"}>
-          {isLive ? "active" : "dead"}
+        <MDTypography variant="button" fontWeight="regular" color={aliveColor}>
+          {aliveText}
         </MDTypography>
       </MDBox>
     </MDBox>
@@ -50,14 +68,17 @@ function Node({ node, address, isLive, noGutter }) {
 
 // Setting default values for the props of Invoice
 Node.defaultProps = {
+  node: "empty",
+  address: "https://0.0.0.0:0",
+  alive: false,
   noGutter: false,
 };
 
 // Typechecking props for the Invoice
 Node.propTypes = {
-  node: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
-  isLive: PropTypes.bool.isRequired,
+  node: PropTypes.string,
+  address: PropTypes.string,
+  alive: PropTypes.bool,
   noGutter: PropTypes.bool,
 };
 

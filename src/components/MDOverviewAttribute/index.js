@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function MDOverviewAttribute({ title, value, link, onClick }) {
+function MDOverviewAttribute({ title, value, url }) {
   return (
     <MDBox mb={1} lineHeight={0}>
       <MDTypography variant="caption" color="text">
@@ -27,9 +27,12 @@ function MDOverviewAttribute({ title, value, link, onClick }) {
           variant="caption"
           fontWeight="medium"
           textTransform="capitalize"
-          color={link ? "link" : "text"}
-          textDecoration={link ? "underline" : "none"}
-          onClick={onClick}
+          color={url ? "link" : "text"}
+          textDecoration={url ? "underline" : "none"}
+          component="a"
+          href={url}
+          target="_self"
+          rel="noreferrer"
         >
           {value}
         </MDTypography>
@@ -39,15 +42,13 @@ function MDOverviewAttribute({ title, value, link, onClick }) {
 }
 
 MDOverviewAttribute.defaultProps = {
-  link: false,
-  onClick: () => {},
+  url: null,
 };
 
 MDOverviewAttribute.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  link: PropTypes.bool,
-  onClick: PropTypes.func,
+  url: PropTypes.string,
 };
 
 export default MDOverviewAttribute;

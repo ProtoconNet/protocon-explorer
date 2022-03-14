@@ -12,6 +12,8 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import { useState } from "react";
+import axios from "axios";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -24,7 +26,50 @@ import MDTypography from "components/MDTypography";
 import colors from "assets/theme-dark/base/colors";
 import Node from "./Node";
 
+const getNodes = async () => axios.get(process.env.REACT_APP_BLOCKCHAIN_NETWORK);
+
 function NodesDefault() {
+  const [networkVersion, setNetworkVersion] = useState("");
+  const [firstGrid, setFirstGrid] = useState([]);
+  const [secondGrid, setSecodeGrid] = useState([]);
+  const [thirdGrid, setThirdGrid] = useState([]);
+
+  getNodes()
+    .then((res) => {
+      // eslint-disable-next-line no-underscore-dangle
+      const nV = res.data._embedded.version;
+      // eslint-disable-next-line no-underscore-dangle
+      const nN = res.data._embedded.suffrage.map((n) => ({
+        node: n.address,
+        address: n.conninfo ? n.conninfo.url : "-",
+        alive: n.conninfo && true,
+      }));
+
+      setNetworkVersion(nV);
+
+      const fGrid = [];
+      const sGrid = [];
+      const tGrid = [];
+
+      nN.forEach((n, idx) => {
+        if (idx % 3 === 0) {
+          fGrid.push(n);
+        } else if (idx % 3 === 1) {
+          sGrid.push(n);
+        } else {
+          tGrid.push(n);
+        }
+      });
+
+      setFirstGrid([...fGrid]);
+      setSecodeGrid([...sGrid]);
+      setThirdGrid([...tGrid]);
+    })
+    .catch((e) => {
+      // eslint-disable-next-line no-console
+      console.error(`Cannot load network information\n${e}`);
+    });
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -50,24 +95,26 @@ function NodesDefault() {
                 </MDBox>
                 <MDBox p={2} mx={1}>
                   <MDTypography variant="caption" fontWeight="medium" color="text">
-                    network-01:CqjFcAqCC37Zpt6hns1yGaNCVGV7torsN9QxHDzCtVpz
+                    {networkVersion}
                   </MDTypography>
                 </MDBox>
               </Card>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={12} lg={4}>
-            <Node node="node01" address="https://127.0.0.1:12345" alive />
-            <Node node="node03" address="https://127.0.0.1:12345" />
-            <Node node="node01" address="https://127.0.0.1:12345" alive />
+            {firstGrid.map((x) => (
+              <Node key={x.node} node={x.node} address={x.address} alive={x.alive} />
+            ))}
           </Grid>
           <Grid item xs={12} md={12} lg={4}>
-            <Node node="node03" address="https://127.0.0.1:12345" alive />
-            <Node node="node01" address="https://127.0.0.1:12345" alive />
+            {secondGrid.map((x) => (
+              <Node key={x.node} node={x.node} address={x.address} alive={x.alive} />
+            ))}
           </Grid>
           <Grid item xs={12} md={12} lg={4}>
-            <Node node="node03" address="https://127.0.0.1:12345" alive />
-            <Node node="node01" address="https://127.0.0.1:12345" alive />
+            {thirdGrid.map((x) => (
+              <Node key={x.node} node={x.node} address={x.address} alive={x.alive} />
+            ))}
           </Grid>
         </Grid>
       </MDBox>

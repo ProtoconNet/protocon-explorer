@@ -12,6 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import PropTypes from "prop-types";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -22,11 +23,8 @@ import MDBox from "components/MDBox";
 // Material Dashboard 2 React examples
 import DataTable from "examples/Tables/DataTable";
 
-// Data
-import data from "layouts/dashboard/components/Blocks/data";
-
-function Blocks() {
-  const { columns, rows } = data();
+function Blocks({ data }) {
+  const { columns, rows } = data;
 
   return (
     <Card>
@@ -42,5 +40,9 @@ function Blocks() {
     </Card>
   );
 }
+
+Blocks.propTypes = {
+  data: PropTypes.oneOfType({}).isRequired,
+};
 
 export default Blocks;

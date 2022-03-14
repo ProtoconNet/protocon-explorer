@@ -27,28 +27,40 @@ import MDButton from "components/MDButton";
 import Node from "./Node";
 
 function Nodes({ network, nodes }) {
-  const renderNodes = () => (
-    <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-      <MDBox
-        component="li"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        py={1}
-        pr={1}
-        mb={1}
-      >
-        <MDBox lineHeight={1.125}>
-          <MDTypography display="block" variant="button" fontWeight="medium">
-            {network}
-          </MDTypography>
+  const renderNodes = () => {
+    const renderedNodes =
+      nodes &&
+      nodes.map((x) => <Node key={x.node} node={x.node} address={x.address} alive={x.alive} />);
+
+    if (nodes.length < 4) {
+      for (let i = 0; i < 4 - nodes.length; i += 1) {
+        renderedNodes.push(<Node key={`node ${i}`} />);
+      }
+    }
+
+    const nd = network.length > 22 ? `${network.substring(1, 22)}...` : network;
+
+    return (
+      <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+        <MDBox
+          component="li"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          py={1}
+          pr={1}
+          mb={1}
+        >
+          <MDBox lineHeight={1.125}>
+            <MDTypography display="block" variant="button" fontWeight="medium">
+              {nd || "network not found"}
+            </MDTypography>
+          </MDBox>
         </MDBox>
+        {renderedNodes}
       </MDBox>
-      {nodes.map((x) => (
-        <Node node={x.node} address={x.address} isLive={x.isLive} />
-      ))}
-    </MDBox>
-  );
+    );
+  };
 
   return (
     <Card sx={{ height: "100%" }}>
@@ -73,9 +85,14 @@ function Nodes({ network, nodes }) {
   );
 }
 
+Nodes.defaultProps = {
+  network: "network not found",
+  nodes: [],
+};
+
 Nodes.propTypes = {
-  network: PropTypes.string.isRequired,
-  nodes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  network: PropTypes.string,
+  nodes: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Nodes;

@@ -54,14 +54,13 @@ function VoteData({ round, end, boss, account, termofoffice, candidates, noGutte
         <MDOverviewAttribute title="Round" value={round} />
         <MDOverviewAttribute title="End Vote Time" value={end} />
         <MDOverviewAttribute title="Boss Name" value={boss} />
-        <MDOverviewAttribute title="Account" value={account} onClick={() => {}} link />
+        <MDOverviewAttribute title="Account" value={account} url={`/account/${account}`} />
         <MDOverviewAttribute title="Termofoffice" value={termofoffice} />
         {candidates.map((x, idx) => (
           <MDOverviewAttribute
             title={`Candidate ${idx}:&nbsp;&nbsp;&nbsp;`}
             value={`(${x.nickname}) ${x.address}`}
-            onClick={() => {}}
-            link
+            url={`/account/${x.address}`}
           />
         ))}
       </MDBox>

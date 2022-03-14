@@ -12,50 +12,130 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
-import { useState } from "react";
+import React, { Component } from "react";
+import axios from "axios";
+import PropTypes from "prop-types";
 import Raw from "layouts/raw";
 
-import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 import { Card } from "@mui/material";
 import TokenOverview from "./TokenOverview";
 
-function TokenInfo({ param }) {
-  const [data, setData] = useState(null);
+const getTokenInfo = (cid) =>
+  axios.get(`${[process.env.REACT_APP_BLOCKCHAIN_NETWORK]}/currency/${cid}`);
 
-  const load = async () => {
-    if (data) {
-      setData(null);
+class TokenInfo extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: null,
+      currency: "-",
+      amount: "0",
+      minBalance: "0",
+      type: "-",
+      fee: "-",
+      receiver: "-",
+      isShow: false,
+    };
+
+    this.loadInfo();
+  }
+
+  handleShow() {
+    const { isShow } = this.state;
+    if (isShow) {
+      this.closeData();
     } else {
-      setData({ _hint: "tmp", hash: "tmp" });
+      this.openData();
     }
-  };
+  }
 
-  console.log(param);
+  openData() {
+    this.setState({ isShow: true });
+  }
 
-  return (
-    <MDBox pt={6} pb={6}>
-      {data ? (
-        <Raw data={data} onClick={() => load()} />
-      ) : (
+  closeData() {
+    this.setState({ isShow: false });
+  }
+
+  loadInfo() {
+    const parseType = (_hint) => {
+      if (_hint.indexOf("fixed") >= 0) {
+        return "fixed";
+      }
+      if (_hint.indexOf("ratio") >= 0) {
+        return "ratio";
+      }
+      return "nil";
+    };
+
+    const { param } = this.props;
+    getTokenInfo(param)
+      .then((res) => {
+        // eslint-disable-next-line no-underscore-dangle
+        const info = res.data._embedded;
+        const { currency, amount } = info.amount;
+        const minBalance = info.policy.new_account_min_balance;
+        // eslint-disable-next-line no-underscore-dangle
+        const _type = parseType(info.policy.feeer._hint);
+        let fee;
+        let receiver;
+
+        switch (_type) {
+          case "fixed":
+            fee = info.policy.feeer.amount;
+            receiver = info.policy.feeer.receiver;
+            break;
+          case "ratio":
+            fee = info.policy.feeer.ratio;
+            receiver = info.policy.feeer.receiver;
+            break;
+          default:
+            fee = "-";
+            receiver = "-";
+        }
+
+        this.setState({
+          data: res,
+          currency,
+          amount,
+          minBalance,
+          type: _type,
+          fee,
+          receiver,
+        });
+      })
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(`Cannot load token information\n${e}`);
+      });
+  }
+
+  render() {
+    const { isShow, data, currency, amount, minBalance, type, receiver, fee } = this.state;
+
+    return isShow ? (
+      <Raw data={data} onClick={() => this.handleShow()} />
+    ) : (
+      <MDBox pt={3} pb={6}>
         <Card id="delete-account">
           <MDBox p={2}>
             <TokenOverview
               noGutter={1}
-              currency="PEN"
-              amount="1000000000000000000"
-              minBalance="10000"
-              type="fixed"
-              receiver="EEDChJKA3tAEDbN22WR3ayGq3nnQ61FoPQzoQfEPCnAU"
-              fee="1000.000"
-              onClick={() => load()}
+              currency={currency}
+              amount={amount}
+              minBalance={minBalance}
+              type={type}
+              receiver={receiver}
+              fee={fee}
+              onClick={() => this.handleShow()}
             />
           </MDBox>
         </Card>
-      )}
-    </MDBox>
-  );
+      </MDBox>
+    );
+  }
 }
 
 TokenInfo.propTypes = {

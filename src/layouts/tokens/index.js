@@ -30,7 +30,7 @@ function TokensDefault() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      {currency ? <TokenInfo currency={currency} /> : <Tokens />}
+      {currency ? <TokenInfo param={currency} /> : <Tokens />}
       <Footer />
     </DashboardLayout>
   );

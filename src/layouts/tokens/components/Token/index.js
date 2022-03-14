@@ -17,29 +17,24 @@ import { Card } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
+import { parseFee, parseAmount } from "layouts/parse";
 import PropTypes from "prop-types";
 
-function Token({ currency, amount, feeer }) {
-  let fee;
-
-  switch (feeer.feeer) {
-    case "nil":
-      fee = "-";
-      break;
-    case "fixed":
-      fee = `${feeer.amount} T`;
-      break;
-    case "ratio":
-      fee = `${feeer.ratio * 100} %`;
-      break;
-    default:
-      fee = "?";
-  }
-
+function Token({ currency, amount, fee }) {
   return (
     <MDBox key={currency} p={1} mx={0.5} my={1}>
       <Card>
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+        <MDBox
+          variant="button"
+          component="a"
+          href={`/token/${currency}`}
+          target="_self"
+          rel="noreferrer"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          p={3}
+        >
           <MDBox display="flex" alignItems="center" p={1}>
             <MDBox mr={2}>
               <MDButton variant="gradient" color="dark" iconOnly circular>
@@ -53,12 +48,12 @@ function Token({ currency, amount, feeer }) {
                 {currency}
               </MDTypography>
               <MDTypography variant="caption" color="text" fontWeight="regular">
-                {amount}
+                {parseAmount(amount)}
               </MDTypography>
             </MDBox>
           </MDBox>
           <MDTypography variant="button" color="info" fontWeight="medium" textGradient>
-            {fee}
+            {parseFee(fee)}
           </MDTypography>
         </MDBox>
       </Card>
@@ -68,13 +63,13 @@ function Token({ currency, amount, feeer }) {
 
 Token.defaultProps = {
   amount: 0,
-  feeer: { feeer: "not loaded" },
+  fee: "-",
 };
 
 Token.propTypes = {
   currency: PropTypes.string.isRequired,
   amount: PropTypes.number,
-  feeer: PropTypes.oneOfType(PropTypes.object),
+  fee: PropTypes.string,
 };
 
 export default Token;

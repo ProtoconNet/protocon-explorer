@@ -60,9 +60,9 @@ function DocumentOverview({ type, id, owner, height, onClick, noGutter }) {
           </MDBox>
         </MDBox>
         <MDOverviewAttribute title="Document Type" value={type} />
-        <MDOverviewAttribute title="Document ID" value={id} onClick={() => {}} link />
-        <MDOverviewAttribute title="Owner" value={owner} onClick={() => {}} link />
-        <MDOverviewAttribute title="Block Height" value={height} onClick={() => {}} link />
+        <MDOverviewAttribute title="Document ID" value={id} url={`/document/${id}`} />
+        <MDOverviewAttribute title="Owner" value={owner} url={`/account/${owner}`} />
+        <MDOverviewAttribute title="Block Height" value={height} url={`/block/${height}`} />
       </MDBox>
     </MDBox>
   );

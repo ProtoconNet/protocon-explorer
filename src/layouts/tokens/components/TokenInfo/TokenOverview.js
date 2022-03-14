@@ -25,6 +25,7 @@ import { useMaterialUIController } from "context";
 import MDButton from "components/MDButton";
 import { Icon } from "@mui/material";
 import MDOverviewAttribute from "components/MDOverviewAttribute";
+import { parseAmount, parseFee } from "layouts/parse";
 
 function TokenOverview({ currency, amount, minBalance, type, receiver, fee, noGutter, onClick }) {
   const [controller] = useMaterialUIController();
@@ -59,11 +60,17 @@ function TokenOverview({ currency, amount, minBalance, type, receiver, fee, noGu
           </MDBox>
         </MDBox>
         <MDOverviewAttribute title="Currency ID" value={currency} />
-        <MDOverviewAttribute title="Total Amount" value={amount} />
-        <MDOverviewAttribute title="Minimal Balance for New Account" value={minBalance} />
-        <MDOverviewAttribute title="Feeer Type" value={type} />
+        <MDOverviewAttribute title="Total Amount" value={parseAmount(amount)} />
+        <MDOverviewAttribute
+          title="Minimal Balance for New Account"
+          value={parseAmount(minBalance)}
+        />
+        <MDOverviewAttribute title="Fee Type" value={type} />
+        <MDOverviewAttribute
+          title={parseFee(fee).indexOf("%") >= 0 ? "Fee Ratio" : "Fee Amount"}
+          value={parseFee(fee)}
+        />
         <MDOverviewAttribute title="Receiver" value={receiver} />
-        <MDOverviewAttribute title="Fee Amount/Ratio" value={fee} />
       </MDBox>
     </MDBox>
   );
@@ -72,8 +79,6 @@ function TokenOverview({ currency, amount, minBalance, type, receiver, fee, noGu
 // Setting default values for the props of Bill
 TokenOverview.defaultProps = {
   noGutter: false,
-  receiver: "-",
-  fee: "-",
 };
 
 // Typechecking props for the Bill
@@ -82,8 +87,8 @@ TokenOverview.propTypes = {
   amount: PropTypes.string.isRequired,
   minBalance: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  receiver: PropTypes.string,
-  fee: PropTypes.string,
+  receiver: PropTypes.string.isRequired,
+  fee: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   noGutter: PropTypes.bool,
 };

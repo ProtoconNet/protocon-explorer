@@ -19,18 +19,9 @@ import PropTypes from "prop-types";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import { parseAmount, parseFee } from "layouts/parse";
 
 function Token({ currency, amount, fee, noGutter }) {
-  const feeer = () => {
-    if (fee.feeer === "nil") {
-      return "-";
-    }
-    if (fee.feeer === "fixed") {
-      return `${fee.amount} T`;
-    }
-    return `${fee.ratio * 100} %`;
-  };
-
   return (
     <MDBox
       component="li"
@@ -42,16 +33,26 @@ function Token({ currency, amount, fee, noGutter }) {
       mb={noGutter ? 0 : 1}
     >
       <MDBox lineHeight={1.125}>
-        <MDTypography display="block" variant="button" fontWeight="medium">
+        <MDTypography
+          display="block"
+          variant="button"
+          fontWeight="medium"
+          letterSpacing={1}
+          color="link"
+          component="a"
+          href={`/token/${currency}`}
+          target="_self"
+          rel="noreferrer"
+        >
           {currency}
         </MDTypography>
-        <MDTypography variant="caption" fontWeight="regular" color="text">
-          {amount}
+        <MDTypography variant="caption" fontWeight="regular" color="text" letterSpacing={1}>
+          {parseAmount(amount)}
         </MDTypography>
       </MDBox>
       <MDBox display="flex" alignItems="center">
-        <MDTypography variant="button" fontWeight="regular" color="info">
-          {feeer()}
+        <MDTypography variant="caption" fontWeight="regular" color="info">
+          {parseFee(fee)}
         </MDTypography>
       </MDBox>
     </MDBox>
@@ -60,6 +61,7 @@ function Token({ currency, amount, fee, noGutter }) {
 
 // Setting default values for the props of Invoice
 Token.defaultProps = {
+  fee: "-",
   noGutter: false,
 };
 
@@ -67,7 +69,7 @@ Token.defaultProps = {
 Token.propTypes = {
   currency: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
-  fee: PropTypes.checkPropTypes.isRequired,
+  fee: PropTypes.string,
   noGutter: PropTypes.bool,
 };
 
