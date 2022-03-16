@@ -25,23 +25,27 @@ import MDTypographyRoot from "components/MDTypography/MDTypographyRoot";
 import { useMaterialUIController } from "context";
 
 const MDTypography = forwardRef(
-  ({
-    color,
-    fontWeight,
-    textTransform,
-    verticalAlign,
-    textGradient,
-    opacity,
-    textDecoration,
-    hidden,
-    children,
-    ...rest
-  }) => {
+  (
+    {
+      color,
+      fontWeight,
+      textTransform,
+      verticalAlign,
+      textGradient,
+      opacity,
+      textDecoration,
+      hidden,
+      children,
+      ...rest
+    },
+    ref
+  ) => {
     const [controller] = useMaterialUIController();
     const { darkMode } = controller;
 
     return (
       <MDTypographyRoot
+        ref={ref}
         {...rest}
         ownerState={{
           color,

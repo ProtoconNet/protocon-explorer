@@ -79,7 +79,7 @@ Token.defaultProps = {
 
 Token.propTypes = {
   currency: PropTypes.string.isRequired,
-  amount: PropTypes.number,
+  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   fee: PropTypes.string,
 };
 

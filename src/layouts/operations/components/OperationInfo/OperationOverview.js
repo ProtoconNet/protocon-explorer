@@ -86,7 +86,11 @@ function OperationOverview({
           false
         )}
         <PEOverviewAttribute title="Confirmed At" value={confirmed} />
-        <PEOverviewAttribute title="Block Height" value={height} url={`/block/${height}`} />
+        <PEOverviewAttribute
+          title="Block Height"
+          value={height}
+          url={height >= 0 ? `/block/${height}` : null}
+        />
         <PEOverviewAttribute
           title="In State"
           value={inState ? "true" : "false"}

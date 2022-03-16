@@ -78,7 +78,7 @@ function Items({ type, content }) {
 
 Items.propTypes = {
   type: PropTypes.string.isRequired,
-  content: PropTypes.objectOf(PropTypes.object).isRequired,
+  content: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Items;

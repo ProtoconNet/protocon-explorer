@@ -71,6 +71,7 @@ function BlockSignData({ filehash, creator, title, size, signers }) {
         <PEOverviewAttribute title="Size" value={size} />
         {signers.map((signer, idx) => (
           <PEOverviewAttribute
+            key={`signers-${signer.signcode}`}
             title={`Signer ${idx}`}
             value={`(${signer.signcode}) ${signer.address} - ${
               signer.signed ? "signed" : "unsigned"
@@ -86,7 +87,7 @@ function BlockSignData({ filehash, creator, title, size, signers }) {
 // Typechecking props for the Bill
 BlockSignData.propTypes = {
   filehash: PropTypes.string.isRequired,
-  creator: PropTypes.objectOf(PropTypes.string).isRequired,
+  creator: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool])).isRequired,
   title: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   signers: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -83,7 +83,7 @@ function FactSigns({ factSigns }) {
 }
 
 FactSigns.propTypes = {
-  factSigns: PropTypes.objectOf(PropTypes.string).isRequired,
+  factSigns: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default FactSigns;

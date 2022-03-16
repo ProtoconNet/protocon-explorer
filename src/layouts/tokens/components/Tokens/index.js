@@ -162,17 +162,17 @@ class Tokens extends Component {
           </Grid>
           <Grid item xs={12} md={12} lg={4}>
             {firstGrid.map((t) => (
-              <Token currency={t.currency} amount={t.amount} fee={t.fee} />
+              <Token key={t.currency} currency={t.currency} amount={t.amount} fee={t.fee} />
             ))}
           </Grid>
           <Grid item xs={12} md={12} lg={4}>
             {secondGrid.map((t) => (
-              <Token currency={t.currency} amount={t.amount} fee={t.fee} />
+              <Token key={t.currency} currency={t.currency} amount={t.amount} fee={t.fee} />
             ))}
           </Grid>
           <Grid item xs={12} md={12} lg={4}>
             {thirdGrid.map((t) => (
-              <Token currency={t.currency} amount={t.amount} fee={t.fee} />
+              <Token key={t.currency} currency={t.currency} amount={t.amount} fee={t.fee} />
             ))}
           </Grid>
         </Grid>

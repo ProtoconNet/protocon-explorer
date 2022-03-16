@@ -182,7 +182,7 @@ class DocumentInfo extends Component {
             hp={content.hp}
             str={content.str}
             dex={content.dex}
-            cha={content.char}
+            cha={content.cha}
             intel={content.intel}
             vital={content.vital}
           />

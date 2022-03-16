@@ -73,7 +73,7 @@ function BlockOverview({ hash, height, created, confirmed, onClick }) {
 // Typechecking props for the Bill
 BlockOverview.propTypes = {
   hash: PropTypes.string.isRequired,
-  height: PropTypes.number.isRequired,
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   created: PropTypes.string.isRequired,
   confirmed: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,

@@ -161,7 +161,7 @@ class Operations extends Component {
           </MDTypography>
         ),
         height: (
-          <MDTypography variant="caption" color="link" fontWeight="regular" letterSpacing={1}>
+          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
             -
           </MDTypography>
         ),

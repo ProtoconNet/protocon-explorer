@@ -167,8 +167,14 @@ class Accounts extends Component {
                     Accounts
                   </MDTypography>
                 </MDBox>
-                <MDBox mt={0.5} mx={3} p={1}>
-                  <MDTypography variant="caption" color="text" letterSpacing={1} hidden>
+                <MDBox p={2} mx={1}>
+                  <MDTypography
+                    variant="caption"
+                    color="text"
+                    fontWeight="medium"
+                    letterSpacing={1}
+                    hidden
+                  >
                     Public Key: {param || "..."}
                   </MDTypography>
                 </MDBox>

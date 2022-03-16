@@ -98,33 +98,54 @@ function DashboardNavbar({ absolute, light, isMini, placeHolder, redirectables }
     if (e.key === "Enter" && searchInput) {
       if (isAddress(searchInput) && redirectables.includes("account address")) {
         navigate(`/account/${searchInput}`);
+        if (route[0] === "account") {
+          window.location.reload(false);
+        }
         return;
       }
       if (isPublicKey(searchInput) && redirectables.includes("public key")) {
         navigate(`/accounts/${searchInput}`);
+        if (route[0] === "accounts") {
+          window.location.reload(false);
+        }
         return;
       }
       if (isNumber(searchInput) && redirectables.includes("block height")) {
         navigate(`/block/${searchInput}`);
+        if (route[0] === "block") {
+          window.location.reload(false);
+        }
         return;
       }
       if (isDocumentId(searchInput) && redirectables.includes("document id")) {
         navigate(`/document/${searchInput}`);
+        if (route[0] === "document") {
+          window.location.reload(false);
+        }
         return;
       }
 
       if (redirectables.includes("block hash") && !/^0[0-9]*$/.test(searchInput)) {
         navigate(`/block/${searchInput}`);
+        if (route[0] === "block") {
+          window.location.reload(false);
+        }
         return;
       }
 
       if (redirectables.includes("fact hash")) {
         navigate(`/operation/${searchInput}`);
+        if (route[0] === "operation") {
+          window.location.reload(false);
+        }
         return;
       }
 
       if (redirectables.includes("currency id")) {
         navigate(`/token/${searchInput}`);
+        if (route[0] === "token") {
+          window.location.reload(false);
+        }
         return;
       }
 

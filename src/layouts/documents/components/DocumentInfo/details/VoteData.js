@@ -66,6 +66,7 @@ function VoteData({ round, end, boss, account, termofoffice, candidates }) {
         <PEOverviewAttribute title="Termofoffice" value={termofoffice} />
         {candidates.map((x, idx) => (
           <PEOverviewAttribute
+            key={`candidate-${x.nickname}`}
             title={`Candidate ${idx}`}
             value={`(${x.nickname}) ${x.address} - ${x.count}`}
             url={`/account/${x.address}`}

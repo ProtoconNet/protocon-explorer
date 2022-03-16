@@ -40,7 +40,7 @@ function AccountsDefault() {
         placeHolder="account address / public key"
         redirectables={["account address", "public key"]}
       />
-      {!(key || address) && <Accounts param={null} />}
+      {!(key || address) && <Accounts param="" />}
       {key && <Accounts param={key} />}
       {address && <Account param={address} />}
       <Footer />
