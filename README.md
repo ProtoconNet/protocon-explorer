@@ -1,6 +1,6 @@
 # Protocon Explorer
 
-This project is implemented based on the project [Material Dashboard 2 React](https://github.com/creativetimofficial/material-dashboard-react) and has rewritten by [Protocon Network](https://github.com/ProtoconNet).
+This project has been implemented based on the project [Material Dashboard 2 React](https://github.com/creativetimofficial/material-dashboard-react) and rewritten by [Protocon Network](https://github.com/ProtoconNet).
 
 Protocon Explorer supports to inquire about block, operation, document, account and currency data of mitum blockchain network.
 
