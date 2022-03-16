@@ -28,30 +28,33 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import DataTable from "examples/Tables/DataTable";
 
-function Keys({ threshold, keys }) {
+// Protocon Explorer utils
+import { parseAmount } from "layouts/parse";
+
+function Tokens({ tokens }) {
   const columns = [
-    { Header: "public key", accessor: "key", width: "70%", align: "left" },
-    { Header: "weight", accessor: "weight", width: "30%", align: "left" },
+    { Header: "currency", accessor: "currency", width: "30%", align: "left" },
+    { Header: "amount", accessor: "amount", width: "70%", align: "left" },
   ];
 
-  const rows = keys.map((k) => ({
-    key: (
+  const rows = tokens.map((t) => ({
+    currency: (
       <MDTypography
         variant="caption"
         color="link"
         fontWeight="regular"
         letterSpacing={1}
         component="a"
-        href={`/accounts/${k.key}`}
+        href={`/token/${t.currency}`}
         target="_self"
         rel="noreferrer"
       >
-        {k.key}
+        {t.currency}
       </MDTypography>
     ),
-    weight: (
+    amount: (
       <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-        {k.weight}
+        {`${parseAmount(t.amount)} ${t.currency}`}
       </MDTypography>
     ),
   }));
@@ -66,7 +69,7 @@ function Keys({ threshold, keys }) {
         mb={2}
       >
         <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-          Keys (threshold: {threshold})
+          Tokens
         </MDTypography>
       </MDBox>
       <DataTable table={{ columns, rows }} isSorted={false} noEndBorder />
@@ -74,9 +77,8 @@ function Keys({ threshold, keys }) {
   );
 }
 
-Keys.propTypes = {
-  threshold: PropTypes.number.isRequired,
-  keys: PropTypes.arrayOf(PropTypes.object).isRequired,
+Tokens.propTypes = {
+  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default Keys;
+export default Tokens;

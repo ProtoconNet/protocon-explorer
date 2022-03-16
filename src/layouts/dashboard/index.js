@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,11 +13,14 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+// React components
 import React from "react";
+
+// axios
 import axios from "axios";
 
 // @mui material components
@@ -20,32 +28,48 @@ import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDTextItem from "components/MDTextItem";
+
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-// import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-// import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
-// Dashboard components
+// Protocon Explorer React layout components
 import Nodes from "./components/Nodes";
 import Tokens from "./components/Tokens";
 import Blocks from "./components/Blocks";
 import Operations from "./components/Operations";
 
-const getNodes = () => axios.get(process.env.REACT_APP_BLOCKCHAIN_NETWORK);
+const getNodes = () =>
+  axios.get(sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK);
 const getBlocks = () =>
-  axios.get(`${process.env.REACT_APP_BLOCKCHAIN_NETWORK}/block/manifests?reverse=1`);
+  axios.get(
+    `${
+      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }/block/manifests?reverse=1`
+  );
 
 const getOperations = () =>
-  axios.get(`${process.env.REACT_APP_BLOCKCHAIN_NETWORK}/block/operations?reverse=1`);
+  axios.get(
+    `${
+      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }/block/operations?reverse=1`
+  );
 
-const getTokens = () => axios.get(`${process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency`);
+const getTokens = () =>
+  axios.get(
+    `${sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency`
+  );
 const getTokenInfo = (token) =>
-  axios.get(`${process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency/${token}`);
+  axios.get(
+    `${
+      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }/currency/${token}`
+  );
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -59,7 +83,7 @@ class Dashboard extends React.Component {
         columns: [
           { Header: "block height", accessor: "height", width: "15%", align: "left" },
           { Header: "block hash", accessor: "hash", width: "60%", align: "left" },
-          { Header: "confirmed", accessor: "confirmed", width: "25%", align: "left" },
+          { Header: "confirmed at", accessor: "confirmed", width: "25%", align: "left" },
         ],
         rows: [],
         height: -1,
@@ -84,6 +108,10 @@ class Dashboard extends React.Component {
           amount: "0",
         },
         t2: {
+          currency: "",
+          amount: "0",
+        },
+        t3: {
           currency: "",
           amount: "0",
         },
@@ -142,9 +170,9 @@ class Dashboard extends React.Component {
           // eslint-disable-next-line no-underscore-dangle
           .map((x) => x._embedded)
           .map((b) => ({
-            height: <MDTextItem content={`${b.height}`} url={`/block/${b.height}`} link />,
-            hash: <MDTextItem content={b.hash} url={`/block/${b.hash}`} link />,
-            confirmed: <MDTextItem content={b.confirmed_at.replace("T", ", ").replace("Z", "")} />,
+            height: <PETextItem content={`${b.height}`} url={`/block/${b.height}`} link />,
+            hash: <PETextItem content={b.hash} url={`/block/${b.hash}`} link />,
+            confirmed: <PETextItem content={b.confirmed_at.replace("T", ", ").replace("Z", "")} />,
           }));
 
         const { blocks } = this.state;
@@ -167,15 +195,15 @@ class Dashboard extends React.Component {
           // eslint-disable-next-line no-underscore-dangle
           .map((x) => x._embedded)
           .map((o) => ({
-            height: <MDTextItem content={`${o.height}`} url={`/block/${o.height}`} link />,
+            height: <PETextItem content={`${o.height}`} url={`/block/${o.height}`} link />,
             hash: (
-              <MDTextItem
+              <PETextItem
                 content={o.operation.fact.hash}
                 url={`/operation/${o.operation.fact.hash}`}
                 link
               />
             ),
-            confirmed: <MDTextItem content={o.confirmed_at.replace("T", ", ").replace("Z", "")} />,
+            confirmed: <PETextItem content={o.confirmed_at.replace("T", ", ").replace("Z", "")} />,
           }));
 
         const { operations } = this.state;
@@ -215,7 +243,7 @@ class Dashboard extends React.Component {
               }
               return 0;
             })
-            .slice(0, 3)
+            .slice(0, 4)
             .map((t) => {
               if (tokens.t0.currency === t) {
                 return tokens.t0;
@@ -226,6 +254,9 @@ class Dashboard extends React.Component {
               if (tokens.t2.currency === t) {
                 return tokens.t2;
               }
+              if (tokens.t3.currency === t) {
+                return tokens.t3;
+              }
               return {
                 currency: t,
                 amount: "0",
@@ -233,17 +264,95 @@ class Dashboard extends React.Component {
             });
 
           if (this.ready) {
-            this.setState({
-              tokens: {
-                t0: newTokens[0],
-                t1: newTokens[1],
-                t2: newTokens[2],
-              },
-            });
+            if (newTokens.length >= 4) {
+              this.setState({
+                tokens: {
+                  t0: newTokens[0],
+                  t1: newTokens[1],
+                  t2: newTokens[2],
+                  t3: newTokens[3],
+                },
+              });
 
-            this.loadTokenInfo(newTokens[0].currency);
-            this.loadTokenInfo(newTokens[1].currency);
-            this.loadTokenInfo(newTokens[2].currency);
+              this.loadTokenInfo(newTokens[0].currency);
+              this.loadTokenInfo(newTokens[1].currency);
+              this.loadTokenInfo(newTokens[2].currency);
+              this.loadTokenInfo(newTokens[3].currency);
+            } else if (newTokens.length === 3) {
+              this.setState({
+                tokens: {
+                  t0: newTokens[0],
+                  t1: newTokens[1],
+                  t2: newTokens[2],
+                  t3: {
+                    currency: "",
+                  },
+                },
+              });
+
+              this.loadTokenInfo(newTokens[0].currency);
+              this.loadTokenInfo(newTokens[1].currency);
+              this.loadTokenInfo(newTokens[2].currency);
+            } else if (newTokens.length === 2) {
+              this.setState({
+                tokens: {
+                  t0: newTokens[0],
+                  t1: newTokens[1],
+                  t2: {
+                    currency: "",
+                    amount: "0",
+                  },
+                  t3: {
+                    currency: "",
+                    amount: "0",
+                  },
+                },
+              });
+
+              this.loadTokenInfo(newTokens[0].currency);
+              this.loadTokenInfo(newTokens[1].currency);
+            } else if (newTokens.length === 1) {
+              this.setState({
+                tokens: {
+                  t0: newTokens[0],
+                  t1: {
+                    currency: "",
+                    amount: "0",
+                  },
+                  t2: {
+                    currency: "",
+                    amount: "0",
+                  },
+                  t3: {
+                    currency: "",
+                    amount: "0",
+                  },
+                },
+              });
+
+              this.loadTokenInfo(newTokens[0].currency);
+            } else {
+              this.setState({
+                tokens: {
+                  t0: {
+                    currency: "",
+                    amount: "0",
+                  },
+                  t1: {
+                    currency: "",
+                    amount: "0",
+                  },
+                  t2: {
+                    currency: "",
+                    amount: "0",
+                  },
+                  t3: {
+                    currency: "",
+                    amount: "0",
+                  },
+                },
+              });
+            }
           }
         })
         .catch((e) => {
@@ -252,7 +361,7 @@ class Dashboard extends React.Component {
         });
     }
 
-    setTimeout(() => this.loadInfo((count + 1) % 10), 1000);
+    setTimeout(() => this.loadInfo((count + 1) % 3), 1000);
   }
 
   loadTokenInfo(cid) {
@@ -319,6 +428,14 @@ class Dashboard extends React.Component {
               },
             });
           }
+          if (tokens.t3.currency === cid && isDifferent(tokens.t3, newToken)) {
+            this.setState({
+              tokens: {
+                ...tokens,
+                t3: newToken,
+              },
+            });
+          }
         }
       })
       .catch((e) => {
@@ -331,7 +448,10 @@ class Dashboard extends React.Component {
     const { networkVersion, nodes, blocks, operations, tokens } = this.state;
     return (
       <DashboardLayout>
-        <DashboardNavbar />
+        <DashboardNavbar
+          placeHolder="block height / fact hash / account address / public key"
+          redirectables={["block height", "fact hash", "account address", "public key"]}
+        />
         <MDBox py={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={3}>
@@ -348,7 +468,7 @@ class Dashboard extends React.Component {
                 <Nodes key={`${nodes}`} network={networkVersion} nodes={nodes} />
               </MDBox>
               <MDBox mb={3}>
-                <Tokens tokens={[tokens.t0, tokens.t1, tokens.t2]} />
+                <Tokens tokens={[tokens.t0, tokens.t1, tokens.t2, tokens.t3]} />
               </MDBox>
             </Grid>
             <Grid item xs={12} md={12} lg={9}>

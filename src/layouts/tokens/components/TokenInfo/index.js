@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,21 +13,36 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React, { Component } from "react";
-import axios from "axios";
-import PropTypes from "prop-types";
-import Raw from "layouts/raw";
 
-import MDBox from "components/MDBox";
+// React components
+import React, { Component } from "react";
+
+// axios
+import axios from "axios";
+
+// prop-types is a library for typechecking of props
+import PropTypes from "prop-types";
+
+// @mui material components
 import { Card } from "@mui/material";
+
+// Material Dashboard 2 React components
+import MDBox from "components/MDBox";
+
+// Protocon Explorer React layout components
+import Raw from "layouts/raw";
 import TokenOverview from "./TokenOverview";
 
 const getTokenInfo = (cid) =>
-  axios.get(`${[process.env.REACT_APP_BLOCKCHAIN_NETWORK]}/currency/${cid}`);
+  axios.get(
+    `${[
+      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK,
+    ]}/currency/${cid}`
+  );
 
 class TokenInfo extends Component {
   constructor(props) {
@@ -118,11 +138,10 @@ class TokenInfo extends Component {
     return isShow ? (
       <Raw data={data} onClick={() => this.handleShow()} />
     ) : (
-      <MDBox pt={3} pb={6}>
+      <MDBox py={5} px={1} mx={0.5}>
         <Card id="delete-account">
-          <MDBox p={2}>
+          <MDBox py={1} px={2}>
             <TokenOverview
-              noGutter={1}
               currency={currency}
               amount={amount}
               minBalance={minBalance}

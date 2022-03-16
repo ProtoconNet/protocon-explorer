@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,24 +13,30 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { Card } from "@mui/material";
+// prop-types is a library for typechecking of props
+import PropTypes from "prop-types";
+
+// Material Dashboard React components
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
+
+// @mui material components
+import { Card } from "@mui/material";
+
+// Protocon Explorer utils
 import { parseFee, parseAmount } from "layouts/parse";
-import PropTypes from "prop-types";
 
 function Token({ currency, amount, fee }) {
   return (
     <MDBox key={currency} p={1} mx={0.5} my={1}>
       <Card>
         <MDBox
-          variant="button"
           component="a"
           href={`/token/${currency}`}
           target="_self"

@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,7 +13,7 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
@@ -19,15 +24,21 @@ import PropTypes from "prop-types";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
-import MDButton from "components/MDButton";
+
+// @mui material components
 import { Icon } from "@mui/material";
-import MDOverviewAttribute from "components/MDOverviewAttribute";
+
+// Protocon Explorer React components
+import PEOverviewAttribute from "components/PEOverviewAttribute";
+
+// Protocon Explorer utils
 import { parseAmount, parseFee } from "layouts/parse";
 
-function TokenOverview({ currency, amount, minBalance, type, receiver, fee, noGutter, onClick }) {
+function TokenOverview({ currency, amount, minBalance, type, receiver, fee, onClick }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -40,46 +51,34 @@ function TokenOverview({ currency, amount, minBalance, type, receiver, fee, noGu
       bgColor={darkMode ? "transparent" : "grey-100"}
       borderRadius="lg"
       p={3}
-      mb={noGutter ? 0 : 1}
     >
       <MDBox width="100%" display="flex" flexDirection="column">
-        <MDBox
-          display="flex"
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-          flexDirection={{ xs: "column", sm: "row" }}
-          mb={2}
-        >
+        <MDBox display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
             Token Overview
           </MDTypography>
-          <MDBox display="flex" alignItems="center" mt={{ xs: 2, sm: 0 }} ml={{ xs: -1.5, sm: 0 }}>
+          <MDBox display="flex" alignItems="center" ml={{ xs: -1.5, sm: 0 }}>
             <MDButton variant="outlined" color={darkMode ? "white" : "dark"} onClick={onClick}>
               <Icon>data_object</Icon>&nbsp;raw
             </MDButton>
           </MDBox>
         </MDBox>
-        <MDOverviewAttribute title="Currency ID" value={currency} />
-        <MDOverviewAttribute title="Total Amount" value={parseAmount(amount)} />
-        <MDOverviewAttribute
+        <PEOverviewAttribute title="Currency ID" value={currency} />
+        <PEOverviewAttribute title="Total Amount" value={parseAmount(amount)} />
+        <PEOverviewAttribute
           title="Minimal Balance for New Account"
           value={parseAmount(minBalance)}
         />
-        <MDOverviewAttribute title="Fee Type" value={type} />
-        <MDOverviewAttribute
+        <PEOverviewAttribute title="Fee Type" value={type} />
+        <PEOverviewAttribute
           title={parseFee(fee).indexOf("%") >= 0 ? "Fee Ratio" : "Fee Amount"}
           value={parseFee(fee)}
         />
-        <MDOverviewAttribute title="Receiver" value={receiver} />
+        <PEOverviewAttribute title="Receiver" value={receiver} url={`/account/${receiver}`} link />
       </MDBox>
     </MDBox>
   );
 }
-
-// Setting default values for the props of Bill
-TokenOverview.defaultProps = {
-  noGutter: false,
-};
 
 // Typechecking props for the Bill
 TokenOverview.propTypes = {
@@ -90,7 +89,6 @@ TokenOverview.propTypes = {
   receiver: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  noGutter: PropTypes.bool,
 };
 
 export default TokenOverview;

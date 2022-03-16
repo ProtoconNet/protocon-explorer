@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,63 +13,250 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
-import Raw from "layouts/raw";
+// React components
+import React, { Component } from "react";
 
+// axios
+import axios from "axios";
+
+// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
+
+// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+
+// @mui material components
 import { Card } from "@mui/material";
+
+// Protocon Exaplorer React layout components
+import Raw from "layouts/raw";
 import DocumentOverview from "./DocumentOverview";
 import UserData from "./details/UserData";
+import LandData from "./details/LandData";
+import VoteData from "./details/VoteData";
+import HistoryData from "./details/HistoryData";
+import BlockSignData from "./details/BlockSignData";
 
-function DocumentInfo({ param }) {
-  const [data, setData] = useState(null);
+const getDocumentInfo = (did) =>
+  axios.get(
+    `${
+      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }/block/document/${did}`
+  );
 
-  const load = async () => {
-    if (data) {
-      setData(null);
+class DocumentInfo extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: null,
+      isShow: false,
+
+      type: "-",
+      id: "-",
+      owner: "-",
+      height: -1,
+
+      content: null,
+    };
+
+    this.loadDocumentInfo();
+  }
+
+  handleShow() {
+    const { isShow } = this.state;
+
+    if (isShow) {
+      this.closeData();
     } else {
-      setData({ _hint: "tmp", hash: "tmp" });
+      this.openData();
     }
-  };
+  }
 
-  console.log(param);
+  openData() {
+    this.setState({
+      isShow: true,
+    });
+  }
 
-  return (
-    <MDBox pt={6} pb={6}>
-      {data ? (
-        <Raw data={data} onClick={() => load()} />
-      ) : (
+  closeData() {
+    this.setState({
+      isShow: false,
+    });
+  }
+
+  loadDocumentInfo() {
+    const { param } = this.props;
+    getDocumentInfo(param)
+      .then((res) => {
+        // eslint-disable-next-line no-underscore-dangle
+        const { document } = res.data._embedded;
+        const type = document.info.doctype;
+        const { id } = document.info.docid;
+        const { owner } = document;
+        // eslint-disable-next-line no-underscore-dangle
+        const { height } = res.data._embedded;
+
+        let content = null;
+        if (type.indexOf("user-data") >= 0) {
+          const { statistics } = document;
+          content = {
+            gold: document.gold,
+            bankGold: document.bankgold,
+            hp: statistics.hp,
+            str: statistics.strength,
+            dex: statistics.dexterity,
+            cha: statistics.charisma,
+            intel: statistics.intelligence,
+            vital: statistics.vital,
+          };
+        }
+        if (type.indexOf("land-data") >= 0) {
+          content = {
+            address: document.address,
+            area: document.area,
+            renter: document.renter,
+            account: document.account,
+            rent: document.rentdate,
+            period: document.periodday,
+          };
+        }
+        if (type.indexOf("voting-data") >= 0) {
+          content = {
+            round: document.round,
+            end: document.endvotetime,
+            boss: document.bossname,
+            account: document.account,
+            termofoffice: document.termofoffice,
+            candidates: document.candidates,
+          };
+        }
+        if (type.indexOf("history-data") >= 0) {
+          content = {
+            name: document.name,
+            account: document.account,
+            date: document.date,
+            usage: document.usage,
+            app: document.application,
+          };
+        }
+        if (type.indexOf("blocksign") >= 0) {
+          content = {
+            filehash: document.filehash,
+            creator: document.creator,
+            title: document.title,
+            size: document.size,
+            signers: document.signers,
+          };
+        }
+
+        this.setState({
+          data: res.data,
+          type,
+          id,
+          owner,
+          height,
+          content,
+        });
+      })
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(`Cannot load document information\n${e}`);
+      });
+  }
+
+  render() {
+    const { data, isShow, type, id, owner, height, content } = this.state;
+
+    const renderDetails = () => {
+      if (type.indexOf("user-data") >= 0) {
+        return (
+          <UserData
+            gold={content.gold}
+            bankGold={content.bankGold}
+            hp={content.hp}
+            str={content.str}
+            dex={content.dex}
+            cha={content.char}
+            intel={content.intel}
+            vital={content.vital}
+          />
+        );
+      }
+      if (type.indexOf("land-data") >= 0) {
+        return (
+          <LandData
+            account={content.account}
+            address={content.address}
+            area={content.area}
+            period={content.period}
+            rent={content.rent}
+            renter={content.renter}
+          />
+        );
+      }
+      if (type.indexOf("voting-data") >= 0) {
+        return (
+          <VoteData
+            account=""
+            boss=""
+            candidates={content.candidates}
+            end={content.end}
+            round={content.round}
+            termofoffice={content.termofoffice}
+          />
+        );
+      }
+      if (type.indexOf("history-data") >= 0) {
+        return (
+          <HistoryData
+            account={content.account}
+            app={content.app}
+            date={content.date}
+            name={content.name}
+            usage={content.usage}
+          />
+        );
+      }
+      if (type.indexOf("blocksign") >= 0) {
+        return (
+          <BlockSignData
+            filehash={content.filehash}
+            creator={content.creator}
+            signers={content.signers}
+            size={content.size}
+            title={content.title}
+          />
+        );
+      }
+
+      return false;
+    };
+
+    return isShow ? (
+      <Raw data={data} onClick={() => this.handleShow()} />
+    ) : (
+      <MDBox py={5} px={1} mx={0.5}>
         <Card id="delete-account">
-          <MDBox p={2}>
+          <MDBox pt={1} pb={2} px={2}>
             <DocumentOverview
-              noGutter={1}
-              type="mitum-blockcity-document-user-data"
-              id="sdlkfjlkdfjcui"
-              owner="EEDChJKA3tAEDbN22WR3ayGq3nnQ61FoPQzoQfEPCnAUmca"
-              height={123}
-              onClick={() => load()}
+              type={type}
+              id={id}
+              owner={owner}
+              height={height}
+              onClick={() => this.handleShow()}
             />
           </MDBox>
-          <UserData
-            gold={1000}
-            bankGold={100000}
-            hp={10}
-            str={10}
-            dex={10}
-            cha={10}
-            intel={10}
-            vital={10}
-          />
+          {renderDetails()}
         </Card>
-      )}
-    </MDBox>
-  );
+      </MDBox>
+    );
+  }
 }
 
 DocumentInfo.propTypes = {

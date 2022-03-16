@@ -31,7 +31,7 @@ import { useMaterialUIController } from "context";
 // Protocon Explorer React components
 import PEOverviewAttribute from "components/PEOverviewAttribute";
 
-function VoteData({ round, end, boss, account, termofoffice, candidates }) {
+function BlockSignData({ filehash, creator, title, size, signers }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -56,19 +56,26 @@ function VoteData({ round, end, boss, account, termofoffice, candidates }) {
           mb={2}
         >
           <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-            Details - Vote Data
+            Details - BlockSign Data
           </MDTypography>
         </MDBox>
-        <PEOverviewAttribute title="Round" value={round} />
-        <PEOverviewAttribute title="End Vote Time" value={end} />
-        <PEOverviewAttribute title="Boss Name" value={boss} />
-        <PEOverviewAttribute title="Account" value={account} url={`/account/${account}`} />
-        <PEOverviewAttribute title="Termofoffice" value={termofoffice} />
-        {candidates.map((x, idx) => (
+        <PEOverviewAttribute title="File Hash" value={filehash} />
+        <PEOverviewAttribute
+          title="Creator"
+          value={`(${creator.signcode}) ${creator.address} - ${
+            creator.signed ? "signed" : "unsigned"
+          }`}
+          url={`/account/${creator.address}`}
+        />
+        <PEOverviewAttribute title="Title" value={title} />
+        <PEOverviewAttribute title="Size" value={size} />
+        {signers.map((signer, idx) => (
           <PEOverviewAttribute
-            title={`Candidate ${idx}`}
-            value={`(${x.nickname}) ${x.address} - ${x.count}`}
-            url={`/account/${x.address}`}
+            title={`Signer ${idx}`}
+            value={`(${signer.signcode}) ${signer.address} - ${
+              signer.signed ? "signed" : "unsigned"
+            }`}
+            url={`account/${signer.address}`}
           />
         ))}
       </MDBox>
@@ -77,13 +84,12 @@ function VoteData({ round, end, boss, account, termofoffice, candidates }) {
 }
 
 // Typechecking props for the Bill
-VoteData.propTypes = {
-  round: PropTypes.number.isRequired,
-  end: PropTypes.string.isRequired,
-  boss: PropTypes.string.isRequired,
-  account: PropTypes.string.isRequired,
-  termofoffice: PropTypes.string.isRequired,
-  candidates: PropTypes.arrayOf(PropTypes.object).isRequired,
+BlockSignData.propTypes = {
+  filehash: PropTypes.string.isRequired,
+  creator: PropTypes.objectOf(PropTypes.string).isRequired,
+  title: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  signers: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default VoteData;
+export default BlockSignData;

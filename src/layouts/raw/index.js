@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,44 +13,44 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
+// @mui material components
 import { Card, Grid, Icon } from "@mui/material";
+
+// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import { useMaterialUIController } from "context";
 import MDButton from "components/MDButton";
+
+// Material Dashboard 2 React contexts
+import { useMaterialUIController } from "context";
 
 function Raw({ data, onClick }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
   return (
-    <MDBox mt={3}>
+    <MDBox py={5} px={1} mx={0.5}>
       <Card id="delete-account">
-        <MDBox py={1} px={3}>
-          <MDBox p={2} display="flex" justifyContent="space-between" alignItems="center">
-            <MDTypography variant="h6" fontWeight="medium">
+        <MDBox p={3}>
+          <MDBox py={1} px={2} display="flex" justifyContent="space-between" alignItems="center">
+            <MDTypography variant="button" fontWeight="medium">
               Raw Data
             </MDTypography>
-
-            <MDBox
-              display="flex"
-              alignItems="center"
-              mt={{ xs: 2, sm: 0 }}
-              ml={{ xs: -1.5, sm: 0 }}
-            >
+            <MDBox display="flex" alignItems="center" ml={{ xs: -1.5, sm: 0 }}>
               <MDButton variant="outlined" color={darkMode ? "white" : "dark"} onClick={onClick}>
                 <Icon>arrow_back_icon</Icon>&nbsp;back
               </MDButton>
             </MDBox>
           </MDBox>
-          <MDBox p={2}>
+          <MDBox py={1} px={2}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <MDBox

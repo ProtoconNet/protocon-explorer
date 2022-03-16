@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,22 +13,66 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+
+// prop-types is a library for typechecking of props
+import PropTypes from "prop-types";
+
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// Material Dashboard 2 React examples
+// Material Dashboard 2 React example components
 import DataTable from "examples/Tables/DataTable";
 
-// Data
-import data from "./data";
+// Protocon Explorer utils
+import { parseAmount } from "layouts/parse";
 
-function Tokens() {
-  const { columns, rows } = data();
+function Tokens({ tokens }) {
+  const columns = [
+    { Header: "currency", accessor: "currency", width: "30%", align: "left" },
+    { Header: "amount", accessor: "amount", width: "70%", align: "left" },
+  ];
+
+  const rows = tokens.map((t) => ({
+    currency: (
+      <MDTypography
+        variant="caption"
+        color="link"
+        fontWeight="regular"
+        letterSpacing={1}
+        component="a"
+        href={`/token/${t.currency}`}
+        target="_self"
+        rel="noreferrer"
+      >
+        {t.currency}
+      </MDTypography>
+    ),
+    amount: (
+      <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
+        {`${parseAmount(t.amount)} ${t.currency}`}
+      </MDTypography>
+    ),
+  }));
+
+  if (rows.length === 0) {
+    rows.push({
+      currency: (
+        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
+          -
+        </MDTypography>
+      ),
+      amount: (
+        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
+          -
+        </MDTypography>
+      ),
+    });
+  }
 
   return (
     <MDBox p={3}>
@@ -38,15 +87,13 @@ function Tokens() {
           Tokens
         </MDTypography>
       </MDBox>
-      <DataTable
-        table={{ columns, rows }}
-        showTotalEntries={false}
-        isSorted={false}
-        noEndBorder
-        entriesPerPage={false}
-      />
+      <DataTable table={{ columns, rows }} isSorted={false} noEndBorder />
     </MDBox>
   );
 }
+
+Tokens.propTypes = {
+  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default Tokens;

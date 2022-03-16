@@ -28,6 +28,7 @@ export default styled(Typography)(({ theme, ownerState }) => {
     textGradient,
     darkMode,
     textDecoration,
+    hidden,
   } = ownerState;
 
   const { gradients, transparent, white } = palette;
@@ -62,6 +63,14 @@ export default styled(Typography)(({ theme, ownerState }) => {
     colorValue = "inherit";
   } else if (darkMode && color === "dark") colorValue = white.main;
 
+  const ellipsisStyle = () => ({
+    display: "block",
+    maxWidth: "700px",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+  });
+
   return {
     opacity,
     textTransform,
@@ -70,6 +79,8 @@ export default styled(Typography)(({ theme, ownerState }) => {
     color: colorValue,
     fontWeight: fontWeights[fontWeight] && fontWeights[fontWeight],
     ...(textGradient && gradientStyles()),
+
+    ...(hidden && ellipsisStyle()),
 
     "&:hover, &:focus, &:active": {
       opacity: "0.5",

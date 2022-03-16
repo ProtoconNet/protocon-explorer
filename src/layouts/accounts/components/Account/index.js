@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,65 +13,126 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+// React components
+import React, { Component } from "react";
 
-import { useState } from "react";
-import Raw from "layouts/raw";
+// axios
+import axios from "axios";
 
+// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
+
+// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+
+// @mui material components
 import { Card } from "@mui/material";
+
+// Protocon Exaplorer React layout components
+import Raw from "layouts/raw";
 import AccountOverview from "./AccountOverview";
 import Keys from "./Keys";
 import Operations from "./Operations";
 import Tokens from "./Tokens";
 import Documents from "./Documents";
 
-function AccountInfo({ param }) {
-  const [data, setData] = useState(null);
+const getAccountInfo = (address) =>
+  axios.get(`${sessionStorage.getItem("network")}/account/${address}`);
 
-  const load = async () => {
-    if (data) {
-      setData(null);
+class AccountInfo extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isShow: false,
+      data: null,
+      keys: {
+        threshold: 0,
+        keys: [],
+      },
+      tokens: [],
+    };
+
+    this.loadAccountsInfo();
+  }
+
+  handleShow() {
+    const { isShow } = this.state;
+    if (isShow) {
+      this.closeData();
     } else {
-      setData({ _hint: "tmp", hash: "tmp" });
+      this.openData();
     }
-  };
+  }
 
-  console.log(param);
+  openData() {
+    this.setState({ isShow: true });
+  }
 
-  return (
-    <MDBox pt={6} pb={3}>
-      {data ? (
-        <Raw data={data} onClick={() => load()} />
-      ) : (
+  closeData() {
+    this.setState({ isShow: false });
+  }
+
+  loadAccountsInfo() {
+    const { param } = this.props;
+
+    getAccountInfo(param).then((res) => {
+      // eslint-disable-next-line no-underscore-dangle
+      const { threshold } = res.data._embedded.keys;
+      // eslint-disable-next-line no-underscore-dangle
+      const keys = res.data._embedded.keys.keys.map((k) => ({
+        key: k.key,
+        weight: k.weight,
+      }));
+      // eslint-disable-next-line no-underscore-dangle
+      const tokens = res.data._embedded.balance.map((t) => ({
+        currency: t.currency,
+        amount: t.amount,
+      }));
+
+      this.setState({
+        keys: {
+          threshold,
+          keys,
+        },
+        tokens,
+        data: res.data,
+      });
+    });
+  }
+
+  render() {
+    const { param } = this.props;
+    const { isShow, data, keys, tokens } = this.state;
+
+    return isShow ? (
+      <Raw data={data} onClick={() => this.handleShow()} />
+    ) : (
+      <MDBox py={5} px={1} mx={0.5}>
         <Card id="delete-account">
           <MDBox pt={1} pb={2} px={2}>
-            <AccountOverview
-              noGutter={1}
-              address="EEDChJKA3tAEDbN22WR3ayGq3nnQ61FoPQzoQfEPCnAUmca"
-              onClick={() => load()}
-            />
+            <AccountOverview address={param} onClick={() => this.handleShow()} />
           </MDBox>
           <MDBox py={1} px={2}>
-            <Keys />
+            <Keys threshold={keys.threshold} keys={keys.keys} />
           </MDBox>
           <MDBox py={1} px={2}>
-            <Tokens />
+            <Tokens tokens={tokens} />
           </MDBox>
           <MDBox py={1} px={2}>
-            <Operations />
+            <Operations address={param} />
           </MDBox>
           <MDBox py={1} px={2}>
-            <Documents />
+            <Documents address={param} />
           </MDBox>
         </Card>
-      )}
-    </MDBox>
-  );
+      </MDBox>
+    );
+  }
 }
 
 AccountInfo.propTypes = {

@@ -19,7 +19,7 @@ Coded by www.creative-tim.com
  * You can customized the box-shadow for the entire Material Dashboard 2 PRO React using thie file.
  */
 
-// Material Dashboard 2 React Base Styles
+// Material Dashboard 2 React base styles
 import colors from "assets/theme-dark/base/colors";
 
 // Material Dashboard 2 React Helper Functions

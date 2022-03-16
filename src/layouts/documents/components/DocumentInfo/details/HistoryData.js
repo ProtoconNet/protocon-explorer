@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,7 +13,7 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
@@ -22,9 +27,11 @@ import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
-import MDOverviewAttribute from "components/MDOverviewAttribute";
 
-function HistoryData({ name, account, date, usage, app, noGutter }) {
+// Protocon Explorer React components
+import PEOverviewAttribute from "components/PEOverviewAttribute";
+
+function HistoryData({ name, account, date, usage, app }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -36,8 +43,9 @@ function HistoryData({ name, account, date, usage, app, noGutter }) {
       alignItems="flex-start"
       bgColor={darkMode ? "transparent" : "grey-100"}
       borderRadius="lg"
-      p={5}
-      mb={noGutter ? 0 : 1}
+      px={5}
+      pb={3}
+      mb={1}
     >
       <MDBox width="100%" display="flex" flexDirection="column">
         <MDBox
@@ -51,20 +59,15 @@ function HistoryData({ name, account, date, usage, app, noGutter }) {
             Details - Land Data
           </MDTypography>
         </MDBox>
-        <MDOverviewAttribute title="Name" value={name} />
-        <MDOverviewAttribute title="Date" value={date} />
-        <MDOverviewAttribute title="Account" value={account} url={`/account/${account}`} />
-        <MDOverviewAttribute title="Usage" value={usage} />
-        <MDOverviewAttribute title="Application" value={app} />
+        <PEOverviewAttribute title="Name" value={name} />
+        <PEOverviewAttribute title="Date" value={date} />
+        <PEOverviewAttribute title="Account" value={account} url={`/account/${account}`} />
+        <PEOverviewAttribute title="Usage" value={usage} />
+        <PEOverviewAttribute title="Application" value={app} />
       </MDBox>
     </MDBox>
   );
 }
-
-// Setting default values for the props of Bill
-HistoryData.defaultProps = {
-  noGutter: false,
-};
 
 // Typechecking props for the Bill
 HistoryData.propTypes = {
@@ -73,7 +76,6 @@ HistoryData.propTypes = {
   date: PropTypes.string.isRequired,
   usage: PropTypes.string.isRequired,
   app: PropTypes.string.isRequired,
-  noGutter: PropTypes.bool,
 };
 
 export default HistoryData;

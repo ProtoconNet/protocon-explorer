@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,22 +13,40 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+
+// react component
 import React, { Component } from "react";
+
+// axios
 import axios from "axios";
 
+// @mui material components
 import { Card, Grid } from "@mui/material";
+
+// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+
+// Material Dashboard 2 React base styles
 import colors from "assets/theme-dark/base/colors";
+
+// Protocon Explorer React layout components
 import Token from "../Token";
 
-const getTokens = () => axios.get(`${process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency`);
+const getTokens = () =>
+  axios.get(
+    `${sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency`
+  );
 const getTokenInfo = (cid) =>
-  axios.get(`${process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency/${cid}`);
+  axios.get(
+    `${
+      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }/currency/${cid}`
+  );
 
 function tokenTemplate(currency) {
   return {
@@ -109,7 +132,7 @@ class Tokens extends Component {
     const { firstGrid, secondGrid, thirdGrid } = this.state;
 
     return (
-      <MDBox py={3}>
+      <MDBox py={4}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <MDBox p={1} mx={0.5}>

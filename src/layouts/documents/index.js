@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,10 +13,12 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+
+// react-router-dom components
 import { useParams } from "react-router-dom";
 
 // Material Dashboard 2 React example components
@@ -19,7 +26,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
-// data
+// Protocon Explorer React layout components
 import LatestDocuments from "./components/LatestDocuments";
 import DocumentInfo from "./components/DocumentInfo";
 
@@ -29,7 +36,7 @@ function Documents() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar placeHolder="document id" redirectables={["document id"]} />
       {id ? <DocumentInfo param={id} /> : <LatestDocuments />}
       <Footer />
     </DashboardLayout>

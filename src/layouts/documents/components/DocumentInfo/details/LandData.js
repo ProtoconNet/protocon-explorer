@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,7 +13,7 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
@@ -23,7 +28,10 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
 
-function LandData({ address, area, renter, account, rent, period, noGutter }) {
+// Protocon Explorer React components
+import PEOverviewAttribute from "components/PEOverviewAttribute";
+
+function LandData({ address, area, renter, account, rent, period }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -35,8 +43,9 @@ function LandData({ address, area, renter, account, rent, period, noGutter }) {
       alignItems="flex-start"
       bgColor={darkMode ? "transparent" : "grey-100"}
       borderRadius="lg"
-      p={5}
-      mb={noGutter ? 0 : 1}
+      px={5}
+      pb={3}
+      mb={1}
     >
       <MDBox width="100%" display="flex" flexDirection="column">
         <MDBox
@@ -50,63 +59,16 @@ function LandData({ address, area, renter, account, rent, period, noGutter }) {
             Details - Land Data
           </MDTypography>
         </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Address:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              {address}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Area:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              {area}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Renter:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              {renter}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Account:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium">
-              {account}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Rent Date:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium">
-              {rent}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Period:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium">
-              {period}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
+        <PEOverviewAttribute title="Address" value={address} />
+        <PEOverviewAttribute title="Area" value={area} />
+        <PEOverviewAttribute title="Renter" value={renter} />
+        <PEOverviewAttribute title="Account" value={account} url={`/account/${account}`} />
+        <PEOverviewAttribute title="Rent Date" value={rent} />
+        <PEOverviewAttribute title="Period" value={period} />
       </MDBox>
     </MDBox>
   );
 }
-
-// Setting default values for the props of Bill
-LandData.defaultProps = {
-  noGutter: false,
-};
 
 // Typechecking props for the Bill
 LandData.propTypes = {
@@ -116,7 +78,6 @@ LandData.propTypes = {
   account: PropTypes.string.isRequired,
   rent: PropTypes.string.isRequired,
   period: PropTypes.number.isRequired,
-  noGutter: PropTypes.bool,
 };
 
 export default LandData;

@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -20,7 +25,7 @@ import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function Node({ node, address, alive, noGutter }) {
+function Node({ node, address, alive }) {
   let aliveText;
   let aliveColor;
 
@@ -43,7 +48,6 @@ function Node({ node, address, alive, noGutter }) {
       alignItems="center"
       py={1}
       pr={1}
-      mb={noGutter ? 0 : 1}
     >
       <MDBox lineHeight={1.125}>
         <MDTypography
@@ -71,7 +75,6 @@ Node.defaultProps = {
   node: "empty",
   address: "https://0.0.0.0:0",
   alive: false,
-  noGutter: false,
 };
 
 // Typechecking props for the Invoice
@@ -79,7 +82,6 @@ Node.propTypes = {
   node: PropTypes.string,
   address: PropTypes.string,
   alive: PropTypes.bool,
-  noGutter: PropTypes.bool,
 };
 
 export default Node;

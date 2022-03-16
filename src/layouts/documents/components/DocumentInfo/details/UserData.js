@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,7 +13,7 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
@@ -22,9 +27,11 @@ import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
-import MDOverviewAttribute from "components/MDOverviewAttribute";
 
-function UserData({ gold, bankGold, hp, str, dex, cha, intel, vital, noGutter }) {
+// Protocon Explorer React components
+import PEOverviewAttribute from "components/PEOverviewAttribute";
+
+function UserData({ gold, bankGold, hp, str, dex, cha, intel, vital }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -36,8 +43,9 @@ function UserData({ gold, bankGold, hp, str, dex, cha, intel, vital, noGutter })
       alignItems="flex-start"
       bgColor={darkMode ? "transparent" : "grey-100"}
       borderRadius="lg"
-      p={5}
-      mb={noGutter ? 0 : 1}
+      px={5}
+      pb={3}
+      mb={1}
     >
       <MDBox width="100%" display="flex" flexDirection="column">
         <MDBox
@@ -51,23 +59,18 @@ function UserData({ gold, bankGold, hp, str, dex, cha, intel, vital, noGutter })
             Details - User Data
           </MDTypography>
         </MDBox>
-        <MDOverviewAttribute title="Gold" value={gold} />
-        <MDOverviewAttribute title="Bank Gold" value={bankGold} />
-        <MDOverviewAttribute title="HP" value={hp} />
-        <MDOverviewAttribute title="Strength" value={str} />
-        <MDOverviewAttribute title="Dexterity" value={dex} />
-        <MDOverviewAttribute title="Charisma" value={cha} />
-        <MDOverviewAttribute title="Intelligence" value={intel} />
-        <MDOverviewAttribute title="Vital" value={vital} />
+        <PEOverviewAttribute title="Gold" value={gold} />
+        <PEOverviewAttribute title="Bank Gold" value={bankGold} />
+        <PEOverviewAttribute title="HP" value={hp} />
+        <PEOverviewAttribute title="Strength" value={str} />
+        <PEOverviewAttribute title="Dexterity" value={dex} />
+        <PEOverviewAttribute title="Charisma" value={cha} />
+        <PEOverviewAttribute title="Intelligence" value={intel} />
+        <PEOverviewAttribute title="Vital" value={vital} />
       </MDBox>
     </MDBox>
   );
 }
-
-// Setting default values for the props of Bill
-UserData.defaultProps = {
-  noGutter: false,
-};
 
 // Typechecking props for the Bill
 UserData.propTypes = {
@@ -79,7 +82,6 @@ UserData.propTypes = {
   cha: PropTypes.number.isRequired,
   intel: PropTypes.number.isRequired,
   vital: PropTypes.number.isRequired,
-  noGutter: PropTypes.bool,
 };
 
 export default UserData;

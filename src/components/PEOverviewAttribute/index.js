@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,25 +13,26 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
+// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function MDOverviewAttribute({ title, value, url }) {
+function PEOverviewAttribute({ title, value, url }) {
   return (
     <MDBox mb={1} lineHeight={0}>
-      <MDTypography variant="caption" color="text">
+      <MDTypography variant="caption" color="text" hidden>
         {title}:&nbsp;&nbsp;&nbsp;
         <MDTypography
           variant="caption"
           fontWeight="medium"
-          textTransform="capitalize"
           color={url ? "link" : "text"}
           textDecoration={url ? "underline" : "none"}
           component="a"
@@ -41,14 +47,14 @@ function MDOverviewAttribute({ title, value, url }) {
   );
 }
 
-MDOverviewAttribute.defaultProps = {
+PEOverviewAttribute.defaultProps = {
   url: null,
 };
 
-MDOverviewAttribute.propTypes = {
+PEOverviewAttribute.propTypes = {
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   url: PropTypes.string,
 };
 
-export default MDOverviewAttribute;
+export default PEOverviewAttribute;

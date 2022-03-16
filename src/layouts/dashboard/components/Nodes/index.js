@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,11 +13,12 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -38,7 +44,7 @@ function Nodes({ network, nodes }) {
       }
     }
 
-    const nd = network.length > 22 ? `${network.substring(1, 22)}...` : network;
+    const nd = network;
 
     return (
       <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
@@ -51,8 +57,8 @@ function Nodes({ network, nodes }) {
           pr={1}
           mb={1}
         >
-          <MDBox lineHeight={1.125}>
-            <MDTypography display="block" variant="button" fontWeight="medium">
+          <MDBox>
+            <MDTypography display="block" variant="button" fontWeight="medium" hidden>
               {nd || "network not found"}
             </MDTypography>
           </MDBox>

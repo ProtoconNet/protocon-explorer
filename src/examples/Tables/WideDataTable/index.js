@@ -34,8 +34,8 @@ import MDBox from "components/MDBox";
 import DataTableHeadCell from "examples/Tables/WideDataTable/DataTableHeadCell";
 import DataTableBodyCell from "examples/Tables/WideDataTable/DataTableBodyCell";
 
-function WideDataTable({ entriesPerPage, table, isSorted, noEndBorder }) {
-  const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
+function WideDataTable({ table, isSorted, noEndBorder }) {
+  const defaultValue = Number.MAX_SAFE_INTEGER;
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
 
@@ -111,7 +111,6 @@ function WideDataTable({ entriesPerPage, table, isSorted, noEndBorder }) {
 
 // Setting default values for the props of DataTable
 WideDataTable.defaultProps = {
-  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
   canSearch: false,
   showTotalEntries: true,
   pagination: { variant: "gradient", color: "info" },
@@ -121,13 +120,6 @@ WideDataTable.defaultProps = {
 
 // Typechecking props for the DataTable
 WideDataTable.propTypes = {
-  entriesPerPage: PropTypes.oneOfType([
-    PropTypes.shape({
-      defaultValue: PropTypes.number,
-      entries: PropTypes.arrayOf(PropTypes.number),
-    }),
-    PropTypes.bool,
-  ]),
   canSearch: PropTypes.bool,
   showTotalEntries: PropTypes.bool,
   table: PropTypes.objectOf(PropTypes.array).isRequired,

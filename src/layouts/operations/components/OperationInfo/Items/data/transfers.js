@@ -1,5 +1,8 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/function-component-definition */
+/**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
 /**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
@@ -10,70 +13,60 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
 // @mui material components
+import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-export default function data() {
+export default function data(content) {
   return {
     columns: [
       { Header: "receiver", accessor: "receiver", width: "60%", align: "left" },
-      { Header: "transfered", accessor: "token", width: "40%", align: "right" },
+      { Header: "transfered", accessor: "token", width: "40%", align: "left" },
     ],
 
-    rows: [
-      {
-        receiver: (
-          <MDTypography variant="caption" color="link" fontWeight="regular" letterSpacing={1}>
-            bioYWEJCo62J4jzVxDLnedaQWZ4pqYXjwRHpky5iBJLzmca
-          </MDTypography>
-        ),
-        token: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            1000000.0000 PEN
-          </MDTypography>
-        ),
-      },
-      {
-        receiver: (
-          <MDTypography variant="caption" color="link" fontWeight="regular" letterSpacing={1}>
-            bioYWEJCo62J4jzVxDLnedaQWZ4pqYXjwRHpky5iBJLzmca
-          </MDTypography>
-        ),
-        token: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            1000000.0000 PEN
-          </MDTypography>
-        ),
-      },
-      {
-        receiver: (
-          <MDTypography variant="caption" color="link" fontWeight="regular" letterSpacing={1}>
-            bioYWEJCo62J4jzVxDLnedaQWZ4pqYXjwRHpky5iBJLzmca
-          </MDTypography>
-        ),
-        token: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            10000.0000 MCC
-          </MDTypography>
-        ),
-      },
-      {
-        receiver: (
-          <MDTypography variant="caption" color="link" fontWeight="regular" letterSpacing={1}>
-            bioYWEJCo62J4jzVxDLnedaQWZ4pqYXjwRHpky5iBJLzmca
-          </MDTypography>
-        ),
-        token: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            1000000.0000 CWG
-          </MDTypography>
-        ),
-      },
-    ],
+    rows: content.map((item) => ({
+      receiver: (
+        <MDTypography
+          variant="caption"
+          color="link"
+          fontWeight="regular"
+          letterSpacing={1}
+          component="a"
+          target="_self"
+          rel="noreferrer"
+          href={`/account/${item.receiver}`}
+        >
+          {item.receiver}
+        </MDTypography>
+      ),
+      token: (
+        <MDBox display="flex" flexDirection="row" justifyContent="center" align="center">
+          <MDBox mr={1}>
+            <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
+              {item.amount}
+            </MDTypography>
+          </MDBox>
+          <MDBox>
+            <MDTypography
+              variant="caption"
+              color="link"
+              fontWeight="regular"
+              letterSpacing={1}
+              component="a"
+              target="_self"
+              rel="noreferrer"
+              href={`/token/${item.token}`}
+            >
+              {item.token}
+            </MDTypography>
+          </MDBox>
+        </MDBox>
+      ),
+    })),
   };
 }

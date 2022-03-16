@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
 export function parseAmount(_amt) {
   let amt = _amt;
   if (amt.length === 18) {

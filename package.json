@@ -1,16 +1,16 @@
 {
-  "name": "material-dashboard-2-react",
-  "version": "2.1.0",
+  "name": "protocon-explorer",
+  "version": "1.0.0",
   "private": true,
-  "author": "Creative Tim",
-  "license": "See license in https://www.creative-tim.com/license",
-  "description": "React version of Material Dashboard 2 by Creative Tim",
+  "author": "Protocon Network",
+  "license": "MIT",
+  "description": "Protocon Explorer for mitum network.",
   "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
+    "url": "https://github.com/ProtoconNet/protocon-explorer/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
+    "url": "git+https://github.com/ProtoconNet/protocon-explorer.git"
   },
   "engines": {
     "node": "14 || 15 || 16",

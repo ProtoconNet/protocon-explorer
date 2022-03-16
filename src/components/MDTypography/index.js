@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
+// React components
 import { forwardRef } from "react";
 
 // prop-types is a library for typechecking of props
@@ -25,27 +25,24 @@ import MDTypographyRoot from "components/MDTypography/MDTypographyRoot";
 import { useMaterialUIController } from "context";
 
 const MDTypography = forwardRef(
-  (
-    {
-      color,
-      fontWeight,
-      textTransform,
-      verticalAlign,
-      textGradient,
-      opacity,
-      textDecoration,
-      children,
-      ...rest
-    },
-    ref
-  ) => {
+  ({
+    color,
+    fontWeight,
+    textTransform,
+    verticalAlign,
+    textGradient,
+    opacity,
+    textDecoration,
+    hidden,
+    children,
+    ...rest
+  }) => {
     const [controller] = useMaterialUIController();
     const { darkMode } = controller;
 
     return (
       <MDTypographyRoot
         {...rest}
-        ref={ref}
         ownerState={{
           color,
           textTransform,
@@ -55,6 +52,7 @@ const MDTypography = forwardRef(
           textGradient,
           darkMode,
           textDecoration,
+          hidden,
         }}
       >
         {children}
@@ -72,6 +70,7 @@ MDTypography.defaultProps = {
   textGradient: false,
   opacity: 1,
   textDecoration: "none",
+  hidden: false,
 };
 
 // Typechecking props for the MDTypography
@@ -107,6 +106,7 @@ MDTypography.propTypes = {
   children: PropTypes.node.isRequired,
   opacity: PropTypes.number,
   textDecoration: PropTypes.string,
+  hidden: PropTypes.bool,
 };
 
 export default MDTypography;

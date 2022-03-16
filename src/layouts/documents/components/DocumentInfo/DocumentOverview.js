@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2022 Protocon Network. All rights reserved.
+ * Licensed under the MIT license. See LICENSE file in the project root for details.
+ */
+
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -8,7 +13,7 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
@@ -23,10 +28,14 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
 import MDButton from "components/MDButton";
-import { Icon } from "@mui/material";
-import MDOverviewAttribute from "components/MDOverviewAttribute";
 
-function DocumentOverview({ type, id, owner, height, onClick, noGutter }) {
+// @mui material components
+import { Icon } from "@mui/material";
+
+// Protocon Explorer react components
+import PEOverviewAttribute from "components/PEOverviewAttribute";
+
+function DocumentOverview({ type, id, owner, height, onClick }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -39,39 +48,27 @@ function DocumentOverview({ type, id, owner, height, onClick, noGutter }) {
       bgColor={darkMode ? "transparent" : "grey-100"}
       borderRadius="lg"
       p={3}
-      mb={noGutter ? 0 : 1}
     >
       <MDBox width="100%" display="flex" flexDirection="column">
-        <MDBox
-          display="flex"
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-          flexDirection={{ xs: "column", sm: "row" }}
-          mb={2}
-        >
+        <MDBox display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
             Document Overview
           </MDTypography>
 
-          <MDBox display="flex" alignItems="center" mt={{ xs: 2, sm: 0 }} ml={{ xs: -1.5, sm: 0 }}>
+          <MDBox display="flex" alignItems="center" ml={{ xs: -1.5, sm: 0 }}>
             <MDButton variant="outlined" color={darkMode ? "white" : "dark"} onClick={onClick}>
               <Icon>data_object</Icon>&nbsp;raw
             </MDButton>
           </MDBox>
         </MDBox>
-        <MDOverviewAttribute title="Document Type" value={type} />
-        <MDOverviewAttribute title="Document ID" value={id} url={`/document/${id}`} />
-        <MDOverviewAttribute title="Owner" value={owner} url={`/account/${owner}`} />
-        <MDOverviewAttribute title="Block Height" value={height} url={`/block/${height}`} />
+        <PEOverviewAttribute title="Document Type" value={type} />
+        <PEOverviewAttribute title="Document ID" value={id} />
+        <PEOverviewAttribute title="Owner" value={owner} url={`/account/${owner}`} />
+        <PEOverviewAttribute title="Block Height" value={height} url={`/block/${height}`} />
       </MDBox>
     </MDBox>
   );
 }
-
-// Setting default values for the props of Bill
-DocumentOverview.defaultProps = {
-  noGutter: false,
-};
 
 // Typechecking props for the Bill
 DocumentOverview.propTypes = {
@@ -80,7 +77,6 @@ DocumentOverview.propTypes = {
   id: PropTypes.string.isRequired,
   owner: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  noGutter: PropTypes.bool,
 };
 
 export default DocumentOverview;
