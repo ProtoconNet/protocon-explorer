@@ -62,6 +62,9 @@ function reducer(state, action) {
     case "DARKMODE": {
       return { ...state, darkMode: action.value };
     }
+    case "AUTO_LOAD": {
+      return { ...state, autoLoad: true };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

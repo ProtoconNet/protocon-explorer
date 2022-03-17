@@ -35,12 +35,16 @@ import DataTable from "examples/Tables/DataTable";
 const getOperations = (param) =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/block/${param}/operations?reverse=1`
   );
 const getMore = (next) =>
   axios.get(
-    `${sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK}${next}`
+    `${
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }${next}`
   );
 
 class Operations extends Component {

@@ -45,7 +45,8 @@ import BlockSignData from "./details/BlockSignData";
 const getDocumentInfo = (did) =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/block/document/${did}`
   );
 

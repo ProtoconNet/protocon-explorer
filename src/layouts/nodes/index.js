@@ -42,7 +42,10 @@ import colors from "assets/theme-dark/base/colors";
 import Node from "./Node";
 
 const getNodes = async () =>
-  axios.get(sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK);
+  axios.get(
+    sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+  );
 
 class NodesDefault extends Component {
   constructor(props) {

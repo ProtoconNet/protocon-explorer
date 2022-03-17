@@ -38,12 +38,16 @@ import WideDataTable from "examples/Tables/WideDataTable";
 const getBlocks = () =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/block/manifests?reverse=1`
   );
 const getMore = (next) =>
   axios.get(
-    `${sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK}${next}`
+    `${
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }${next}`
   );
 
 class LatestBlocks extends Component {

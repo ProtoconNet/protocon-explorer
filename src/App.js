@@ -134,8 +134,13 @@ export default function App() {
   );
 
   sessionStorage.setItem(
-    "network",
-    sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    process.env.REACT_APP_SESSION_KEY_NETWORK,
+    sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+  );
+  sessionStorage.setItem(
+    process.env.REACT_APP_SESSION_KEY_AUTO_LOAD,
+    JSON.parse(sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_AUTO_LOAD)) || false
   );
 
   return direction === "rtl" ? (

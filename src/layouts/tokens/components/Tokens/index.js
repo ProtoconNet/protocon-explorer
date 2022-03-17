@@ -39,12 +39,16 @@ import Token from "../Token";
 
 const getTokens = () =>
   axios.get(
-    `${sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency`
+    `${
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }/currency`
   );
 const getTokenInfo = (cid) =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/currency/${cid}`
   );
 

@@ -41,7 +41,9 @@ import Tokens from "./Tokens";
 import Documents from "./Documents";
 
 const getAccountInfo = (address) =>
-  axios.get(`${sessionStorage.getItem("network")}/account/${address}`);
+  axios.get(
+    `${sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK)}/account/${address}`
+  );
 
 class AccountInfo extends Component {
   constructor(props) {

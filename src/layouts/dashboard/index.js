@@ -45,29 +45,38 @@ import Blocks from "./components/Blocks";
 import Operations from "./components/Operations";
 
 const getNodes = () =>
-  axios.get(sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK);
+  axios.get(
+    sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+  );
 const getBlocks = () =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/block/manifests?reverse=1`
   );
 
 const getOperations = () =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/block/operations?reverse=1`
   );
 
 const getTokens = () =>
   axios.get(
-    `${sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK}/currency`
+    `${
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }/currency`
   );
 const getTokenInfo = (token) =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/currency/${token}`
   );
 
@@ -119,7 +128,8 @@ class Dashboard extends React.Component {
     };
 
     this.ready = false;
-    this.loadInfo(0);
+    this.loadInfo(0, true);
+    setTimeout(() => this.loadInfo(0, false), 1000);
   }
 
   componentDidMount() {
@@ -130,7 +140,15 @@ class Dashboard extends React.Component {
     this.ready = false;
   }
 
-  loadInfo(count) {
+  loadInfo(count, firstLoad) {
+    if (
+      !JSON.parse(sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_AUTO_LOAD)) &&
+      !firstLoad
+    ) {
+      setTimeout(() => this.loadInfo((count + 1) % 3, false), 1000);
+      return;
+    }
+
     getNodes()
       .then((res) => {
         // eslint-disable-next-line no-underscore-dangle
@@ -361,7 +379,7 @@ class Dashboard extends React.Component {
         });
     }
 
-    setTimeout(() => this.loadInfo((count + 1) % 3), 1000);
+    setTimeout(() => this.loadInfo((count + 1) % 3, false), 1000);
   }
 
   loadTokenInfo(cid) {
@@ -468,7 +486,13 @@ class Dashboard extends React.Component {
           redirectables={["block height", "fact hash", "account address", "public key"]}
         />
         <MDBox py={3}>
-          <Grid container spacing={3}>
+          <Grid
+            container
+            spacing={{
+              xs: 0,
+              lg: 3,
+            }}
+          >
             <Grid item xs={12} md={12} lg={3}>
               <MDBox mb={3}>
                 <ComplexStatisticsCard

@@ -41,13 +41,17 @@ import WideDataTable from "examples/Tables/WideDataTable";
 const getOperations = () =>
   axios.get(
     `${
-      sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
     }/block/operations?reverse=1`
   );
 
 const getMore = (next) =>
   axios.get(
-    `${sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK}${next}`
+    `${
+      sessionStorage.getItem(process.env.REACT_APP_SESSION_KEY_NETWORK) ||
+      process.env.REACT_APP_BLOCKCHAIN_NETWORK
+    }${next}`
   );
 
 class LatestOperations extends Component {
