@@ -39,31 +39,19 @@ function Token({ currency, amount, fee }) {
       pr={1}
     >
       <MDBox lineHeight={1.125}>
-        {currency ? (
-          <MDTypography
-            display="block"
-            variant="button"
-            fontWeight="medium"
-            letterSpacing={1}
-            color="link"
-            component="a"
-            href={`/token/${currency}`}
-            target="_self"
-            rel="noreferrer"
-          >
-            {currency}
-          </MDTypography>
-        ) : (
-          <MDTypography
-            display="block"
-            variant="button"
-            fontWeight="regular"
-            letterSpacing={1}
-            color="text"
-          >
-            empty
-          </MDTypography>
-        )}
+        <MDTypography
+          display="block"
+          variant="button"
+          fontWeight="medium"
+          letterSpacing={1}
+          color="link"
+          component="a"
+          href={`/token/${currency}`}
+          target="_self"
+          rel="noreferrer"
+        >
+          {currency}
+        </MDTypography>
         <MDTypography variant="caption" fontWeight="regular" color="text" letterSpacing={1}>
           {parseAmount(amount)}
         </MDTypography>

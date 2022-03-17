@@ -47,7 +47,7 @@ function Configurator() {
   const renderInfoSB = (
     <MDSnackbar
       icon="notifications"
-      title="Network Changed Completed"
+      title="Network Change Completed"
       content={`Current Network: ${newNetwork}`}
       dateTime="now"
       open={infoSB}

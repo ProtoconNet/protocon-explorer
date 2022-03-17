@@ -38,7 +38,7 @@ const getDocuments = (address) =>
   axios.get(
     `${
       sessionStorage.getItem("network") || process.env.REACT_APP_BLOCKCHAIN_NETWORK
-    }/account/${address}/documents`
+    }/account/${address}/documents?reverse=1`
   );
 const getMore = (next) =>
   axios.get(

@@ -38,12 +38,6 @@ function Nodes({ network, nodes }) {
       nodes &&
       nodes.map((x) => <Node key={x.node} node={x.node} address={x.address} alive={x.alive} />);
 
-    if (nodes.length < 4) {
-      for (let i = 0; i < 4 - nodes.length; i += 1) {
-        renderedNodes.push(<Node key={`node ${i}`} />);
-      }
-    }
-
     const nd = network;
 
     return (

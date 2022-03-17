@@ -65,7 +65,7 @@ export default styled(TextField)(({ theme, ownerState }) => {
   let width;
   switch (size) {
     case "default":
-      width = "410px !important";
+      width = "350px !important";
       break;
     case "small":
       width = "270px !important";

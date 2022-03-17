@@ -139,7 +139,7 @@ class Dashboard extends React.Component {
         const nN = res.data._embedded.suffrage
           .map((n) => ({
             node: n.address,
-            address: n.conninfo ? n.conninfo.url : "-",
+            address: n.conninfo ? n.conninfo.url : "",
             alive: n.conninfo && true,
           }))
           .sort((x, y) => x.attr.localeCompare(y.attr));
@@ -446,6 +446,21 @@ class Dashboard extends React.Component {
 
   render() {
     const { networkVersion, nodes, blocks, operations, tokens } = this.state;
+
+    const tokensToRender = [];
+    if (tokens.t0.currency) {
+      tokensToRender.push(tokens.t0);
+    }
+    if (tokens.t1.currency) {
+      tokensToRender.push(tokens.t1);
+    }
+    if (tokens.t2.currency) {
+      tokensToRender.push(tokens.t2);
+    }
+    if (tokens.t3.currency) {
+      tokensToRender.push(tokens.t3);
+    }
+
     return (
       <DashboardLayout>
         <DashboardNavbar
@@ -468,7 +483,7 @@ class Dashboard extends React.Component {
                 <Nodes key={`${nodes}`} network={networkVersion} nodes={nodes} />
               </MDBox>
               <MDBox mb={3}>
-                <Tokens tokens={[tokens.t0, tokens.t1, tokens.t2, tokens.t3]} />
+                <Tokens tokens={tokensToRender} />
               </MDBox>
             </Grid>
             <Grid item xs={12} md={12} lg={9}>

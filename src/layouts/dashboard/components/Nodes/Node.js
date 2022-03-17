@@ -32,11 +32,11 @@ function Node({ node, address, alive }) {
   if (alive) {
     aliveText = "active";
     aliveColor = "success";
-  } else if (address !== "https://0.0.0.0:0") {
+  } else if (address !== "-") {
     aliveText = "not found";
     aliveColor = "error";
   } else {
-    aliveText = "-";
+    aliveText = "";
     aliveColor = "text";
   }
 
@@ -72,8 +72,8 @@ function Node({ node, address, alive }) {
 
 // Setting default values for the props of Invoice
 Node.defaultProps = {
-  node: "empty",
-  address: "https://0.0.0.0:0",
+  node: "",
+  address: "-",
   alive: false,
 };
 

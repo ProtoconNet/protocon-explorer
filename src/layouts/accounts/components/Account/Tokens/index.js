@@ -34,7 +34,7 @@ import { parseAmount } from "layouts/parse";
 function Tokens({ tokens }) {
   const columns = [
     { Header: "currency", accessor: "currency", width: "30%", align: "left" },
-    { Header: "amount", accessor: "amount", width: "70%", align: "left" },
+    { Header: "amount", accessor: "amount", width: "70%", align: "right" },
   ];
 
   const rows = tokens.map((t) => ({
@@ -53,7 +53,7 @@ function Tokens({ tokens }) {
       </MDTypography>
     ),
     amount: (
-      <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
+      <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={2}>
         {`${parseAmount(t.amount)} ${t.currency}`}
       </MDTypography>
     ),

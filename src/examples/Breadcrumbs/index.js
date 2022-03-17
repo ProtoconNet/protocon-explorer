@@ -56,7 +56,6 @@ function Breadcrumbs({ icon, title, route, light }) {
               component="span"
               variant="button"
               fontWeight="regular"
-              textTransform="capitalize"
               color={light ? "white" : "dark"}
               opacity={light ? 0.8 : 0.5}
             >

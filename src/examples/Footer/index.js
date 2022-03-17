@@ -32,7 +32,7 @@ function Footer({ company, links, marginTop }) {
 
   const renderLinks = () =>
     links.map((link) => (
-      <MDBox key={link.name} component="li" px={2} lineHeight={1}>
+      <MDBox key={link.name} px={2} lineHeight={1}>
         <Link href={link.href} target="_blank">
           <MDTypography variant="button" fontWeight="regular" color="text">
             {link.name}
@@ -70,22 +70,26 @@ function Footer({ company, links, marginTop }) {
       </MDBox>
       <MDBox
         component="ul"
+        display="flex"
+        flexDirection={{ xs: "column", lg: "row" }}
+        flexWrap="wrap"
+        alignItems="center"
+        justifyContent="between"
+        mt={3}
+        mb={0}
+        p={0}
         sx={({ breakpoints }) => ({
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          listStyle: "none",
-          mt: 3,
-          mb: 0,
-          p: 0,
-
           [breakpoints.up("lg")]: {
             mt: 0,
           },
         })}
       >
         {renderLinks()}
+        {/* <MDBox px={2} lineHeight={1}>
+          <MDTypography variant="caption" fontWeight="regular" opacity={0.4}>
+            Optimized for Chrome
+          </MDTypography>
+        </MDBox> */}
       </MDBox>
     </MDBox>
   );
