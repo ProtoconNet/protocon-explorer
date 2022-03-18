@@ -28,6 +28,9 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import DataTable from "examples/Tables/DataTable";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 function Keys({ keys }) {
   const columns = [
     { Header: "public key", accessor: "key", width: "70%", align: "left" },
@@ -35,25 +38,8 @@ function Keys({ keys }) {
   ];
 
   const rows = keys.keys.map((k) => ({
-    key: (
-      <MDTypography
-        variant="caption"
-        color="link"
-        fontWeight="regular"
-        letterSpacing={1}
-        component="a"
-        href={`/accounts/${k.key}`}
-        rel="noreferrer"
-        target="_self"
-      >
-        {k.key}
-      </MDTypography>
-    ),
-    weight: (
-      <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-        {k.weight}
-      </MDTypography>
-    ),
+    key: <PETextItem content={k.key} href={`/accounts/${k.key}`} />,
+    weight: <PETextItem content={k.weight} />,
   }));
 
   return (
@@ -76,7 +62,7 @@ function Keys({ keys }) {
 
 Keys.propTypes = {
   keys: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.object)])
   ).isRequired,
 };
 

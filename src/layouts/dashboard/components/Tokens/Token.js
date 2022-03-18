@@ -26,40 +26,40 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // Protocon Explorer utils
-import { parseAmount, parseFee } from "layouts/parse";
+import { parseFee } from "layouts/parse";
 
-function Token({ currency, amount, fee }) {
+function Token({ currency, fee }) {
   return (
     <MDBox
       component="li"
       display="flex"
+      flexDirection={{ xs: "row", lg: "column" }}
       justifyContent="space-between"
-      alignItems="center"
-      py={1}
-      pr={1}
+      alignItems="start"
+      py={1.42}
     >
-      <MDBox lineHeight={1.125}>
-        <MDTypography
-          display="block"
-          variant="button"
-          fontWeight="medium"
-          letterSpacing={1}
-          color="link"
-          component="a"
-          href={`/token/${currency}`}
-          target="_self"
-          rel="noreferrer"
-        >
-          {currency}
-        </MDTypography>
-        <MDTypography variant="caption" fontWeight="regular" color="text" letterSpacing={1}>
-          {parseAmount(amount)}
-        </MDTypography>
-      </MDBox>
-      <MDBox display="flex" alignItems="center">
-        <MDTypography variant="caption" fontWeight="regular" color={currency ? "info" : "text"}>
-          {parseFee(fee)}
-        </MDTypography>
+      <MDTypography
+        display="block"
+        variant="button"
+        fontWeight="medium"
+        letterSpacing={1}
+        color="link"
+        component="a"
+        href={`/token/${currency}`}
+        target="_self"
+        rel="noreferrer"
+      >
+        {currency}
+      </MDTypography>
+      <MDBox opacity={0.7}>
+        <MDBox display="flex" flexDirection="row" justifyContent="space-between" alignItems="start">
+          <MDTypography variant="caption" fontWeight="medium">
+            Fee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </MDTypography>
+          <MDTypography variant="caption" fontWeight="regular" letterSpacing={1}>
+            {parseFee(fee, currency)}
+          </MDTypography>
+        </MDBox>
       </MDBox>
     </MDBox>
   );
@@ -73,7 +73,6 @@ Token.defaultProps = {
 // Typechecking props for the Invoice
 Token.propTypes = {
   currency: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
   fee: PropTypes.string,
 };
 

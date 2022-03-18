@@ -31,6 +31,9 @@ import DataTable from "examples/Tables/DataTable";
 // Protocon Explorer utils
 import { parseAmount } from "layouts/parse";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 function Tokens({ tokens }) {
   const columns = [
     { Header: "currency", accessor: "currency", width: "30%", align: "left" },
@@ -38,39 +41,14 @@ function Tokens({ tokens }) {
   ];
 
   const rows = tokens.map((t) => ({
-    currency: (
-      <MDTypography
-        variant="caption"
-        color="link"
-        fontWeight="regular"
-        letterSpacing={1}
-        component="a"
-        href={`/token/${t.currency}`}
-        target="_self"
-        rel="noreferrer"
-      >
-        {t.currency}
-      </MDTypography>
-    ),
-    amount: (
-      <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={2}>
-        {`${parseAmount(t.amount)} ${t.currency}`}
-      </MDTypography>
-    ),
+    currency: <PETextItem content={t.currency} href={`/token/${t.currency}`} />,
+    amount: <PETextItem content={parseAmount(t.amount, t.currency)} />,
   }));
 
   if (rows.length === 0) {
     rows.push({
-      currency: (
-        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-          -
-        </MDTypography>
-      ),
-      amount: (
-        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-          -
-        </MDTypography>
-      ),
+      currency: <PETextItem content="-" />,
+      amount: <PETextItem content="-" />,
     });
   }
 

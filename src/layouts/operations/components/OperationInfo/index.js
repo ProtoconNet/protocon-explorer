@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -40,6 +41,8 @@ import Items from "./Items";
 import Keys from "./Keys";
 import Tokens from "./Tokens";
 import FactSigns from "./FactSigns";
+import GenesisNodeKey from "./GenesisNodeKey";
+import Currencies from "./Currencies";
 
 const getOperationInfo = (param) =>
   axios.get(
@@ -71,7 +74,8 @@ class OperationInfo extends Component {
         type: "",
         arr: [],
       },
-
+      genesisNodeKey: "",
+      currencies: [],
       isShow: false,
     };
 
@@ -141,12 +145,10 @@ class OperationInfo extends Component {
 
     const items = (fact) => {
       if (!Object.prototype.hasOwnProperty.call(fact, "items")) {
-        return null;
+        return { type: "", arr: [] };
       }
 
-      // eslint-disable-next-line no-underscore-dangle
       const idx = fact.items[0]._hint.indexOf(process.env.REACT_APP_BLOCKCHAIN_VERSION);
-      // eslint-disable-next-line no-underscore-dangle
       const type = fact.items[0]._hint.substring(0, idx - 1);
       const arr = [];
       switch (type) {
@@ -166,7 +168,7 @@ class OperationInfo extends Component {
               arr.push({
                 receiver: fact.items[i].receiver,
                 token: amount.currency,
-                amount: parseAmount(amount.amount),
+                amount: parseAmount(amount.amount, amount.currency),
               });
             });
           }
@@ -223,13 +225,39 @@ class OperationInfo extends Component {
       }
     };
 
+    const genesisNodeKey = (fact) => {
+      if (!Object.prototype.hasOwnProperty.call(fact, "genesis_node_key")) {
+        return "";
+      }
+
+      return fact.genesis_node_key;
+    };
+
+    const currencies = (fact) => {
+      if (!Object.prototype.hasOwnProperty.call(fact, "currencies")) {
+        return [];
+      }
+
+      return fact.currencies.map((c) => ({
+        currency: c.amount.currency,
+        amount: c.amount.amount,
+        fee: Object.prototype.hasOwnProperty.call(c.policy.feeer, "amount")
+          ? c.policy.feeer.amount
+          : "",
+        receiver: Object.prototype.hasOwnProperty.call(c.policy.feeer, "receiver")
+          ? c.policy.feeer.receiver
+          : "",
+      }));
+    };
+
     getOperationInfo(param)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const { operation } = res.data._embedded;
-        // eslint-disable-next-line no-underscore-dangle
         const operationType = operation._hint;
         const idx = operationType.indexOf(process.env.REACT_APP_BLOCKCHAIN_VERSION);
+
+        // eslint-disable-next-line camelcase
+        const { height, in_state, reason } = res.data._embedded;
 
         this.setState({
           data: res.data,
@@ -239,18 +267,17 @@ class OperationInfo extends Component {
           sender: Object.prototype.hasOwnProperty.call(operation.fact, "sender")
             ? operation.fact.sender
             : "-",
-          // eslint-disable-next-line no-underscore-dangle
           confirmed: res.data._embedded.confirmed_at.replace("T", ", ").replace("Z", ""),
-          // eslint-disable-next-line no-underscore-dangle
-          height: res.data._embedded.height,
-          // eslint-disable-next-line no-underscore-dangle
-          inState: res.data._embedded.in_state,
-          // eslint-disable-next-line no-underscore-dangle
-          reason: res.data._embedded.reason,
+          height,
+          // eslint-disable-next-line camelcase
+          inState: in_state,
+          reason: reason && reason.msg,
           factSigns: factSigns(operation),
           keys: keys(operation.fact),
           tokens: tokens(operation.fact),
           items: items(operation.fact),
+          genesisNodeKey: genesisNodeKey(operation.fact),
+          currencies: currencies(operation.fact),
         });
       })
       .catch((e) => {
@@ -275,7 +302,18 @@ class OperationInfo extends Component {
       keys,
       tokens,
       items,
+      genesisNodeKey,
+      currencies,
     } = this.state;
+
+    const renderComponent = (target, toRender) =>
+      target ? (
+        <MDBox py={1} px={2}>
+          {toRender}
+        </MDBox>
+      ) : (
+        false
+      );
 
     return isShow ? (
       <Raw data={data} onClick={() => this.handleShow()} />
@@ -295,26 +333,12 @@ class OperationInfo extends Component {
               onClick={() => this.handleShow()}
             />
           </MDBox>
-          {keys && (
-            <MDBox py={1} px={2}>
-              <Keys keys={keys} />
-            </MDBox>
-          )}
-          {tokens.length > 0 && (
-            <MDBox py={1} px={2}>
-              <Tokens tokens={tokens} />
-            </MDBox>
-          )}
-          {factSigns.length > 0 && (
-            <MDBox py={1} px={2}>
-              <FactSigns factSigns={factSigns} />
-            </MDBox>
-          )}
-          {items && (
-            <MDBox py={1} px={2}>
-              <Items type={items.type} content={items.arr} />
-            </MDBox>
-          )}
+          {renderComponent(genesisNodeKey, <GenesisNodeKey genesisNodeKey={genesisNodeKey} />)}
+          {renderComponent(keys, <Keys keys={keys || { threshold: 0, keys: [] }} />)}
+          {renderComponent(tokens.length > 0, <Tokens tokens={tokens} />)}
+          {renderComponent(currencies.length > 0, <Currencies currencies={currencies} />)}
+          {renderComponent(items.type, <Items type={items.type} content={items.arr} />)}
+          {renderComponent(factSigns.length > 0, <FactSigns factSigns={factSigns} />)}
         </Card>
       </MDBox>
     );

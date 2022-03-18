@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -95,12 +96,10 @@ class DocumentInfo extends Component {
     const { param } = this.props;
     getDocumentInfo(param)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const { document } = res.data._embedded;
         const type = document.info.doctype;
         const { id } = document.info.docid;
         const { owner } = document;
-        // eslint-disable-next-line no-underscore-dangle
         const { height } = res.data._embedded;
 
         let content = null;

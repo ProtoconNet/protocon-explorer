@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -38,6 +39,9 @@ import colors from "assets/theme-dark/base/colors";
 // Material Dashboard 2 React example components
 import WideDataTable from "examples/Tables/WideDataTable";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 const getOperations = () =>
   axios.get(
     `${
@@ -69,19 +73,14 @@ class LatestOperations extends Component {
   loadOperations() {
     getOperations()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const operations = res.data._embedded.map((o) => ({
-          // eslint-disable-next-line no-underscore-dangle
           hash: o._embedded.operation.fact.hash,
-          // eslint-disable-next-line no-underscore-dangle
           confirmed: o._embedded.confirmed_at.replace("T", ", ").replace("Z", ""),
-          // eslint-disable-next-line no-underscore-dangle
           height: o._embedded.height,
         }));
 
         this.setState({
           operations,
-          // eslint-disable-next-line no-underscore-dangle
           next: res.data._links.next.href,
         });
       })
@@ -96,20 +95,15 @@ class LatestOperations extends Component {
 
     getMore(next)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const additional = res.data._embedded.map((o) => ({
-          // eslint-disable-next-line no-underscore-dangle
           hash: o._embedded.operation.fact.hash,
-          // eslint-disable-next-line no-underscore-dangle
           confirmed: o._embedded.confirmed_at.replace("T", ", ").replace("Z", ""),
-          // eslint-disable-next-line no-underscore-dangle
           height: o._embedded.height,
         }));
 
         const { operations } = this.state;
         this.setState({
           operations: [...operations, ...additional],
-          // eslint-disable-next-line no-underscore-dangle
           next: res.data._links.next.href,
         });
       })
@@ -131,58 +125,16 @@ class LatestOperations extends Component {
 
     const { next, operations } = this.state;
     const rows = operations.map((o) => ({
-      hash: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          href={`/operation/${o.hash}`}
-          target="_self"
-          rel="noreferrer"
-        >
-          {o.hash}
-        </MDTypography>
-      ),
-      height: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          href={`/block/${o.height}`}
-          target="_self"
-          rel="noreferrer"
-        >
-          {o.height}
-        </MDTypography>
-      ),
-      confirmed: (
-        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-          {o.confirmed}
-        </MDTypography>
-      ),
+      hash: <PETextItem content={o.hash} href={`/operation/${o.hash}`} />,
+      height: <PETextItem content={o.height} href={`/block/${o.height}`} />,
+      confirmed: <PETextItem content={o.confirmed} />,
     }));
 
     if (rows.length === 0) {
       rows.push({
-        hash: (
-          <MDTypography variant="caption" color="link" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        height: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        date: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
+        hash: <PETextItem content="-" />,
+        height: <PETextItem content="-" />,
+        date: <PETextItem content="-" />,
       });
     }
 

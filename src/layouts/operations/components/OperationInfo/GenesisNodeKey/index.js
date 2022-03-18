@@ -22,36 +22,41 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 // Material Dashboard 2 React components
+import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function PETextItem({ content, href }) {
-  return href ? (
-    <MDTypography
-      variant="caption"
-      color="link"
-      fontWeight="regular"
-      letterSpacing={1}
-      component="a"
-      href={href}
-      target="_self"
-      rel="noreferrer"
-    >
-      {content}
-    </MDTypography>
-  ) : (
-    <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-      {content}
-    </MDTypography>
+function GenesisNodeKey({ genesisNodeKey }) {
+  return (
+    <MDBox p={3}>
+      <MDBox
+        display="flex"
+        justifyContent="space-between"
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        flexDirection={{ xs: "column", sm: "row" }}
+        mb={1}
+      >
+        <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+          Genesis Node Key
+        </MDTypography>
+      </MDBox>
+      <MDTypography
+        variant="caption"
+        fontWeight="regular"
+        color="link"
+        component="a"
+        href={`/accounts/${genesisNodeKey}`}
+        target="_self"
+        rel="noreferrer"
+        hidden
+      >
+        {genesisNodeKey}
+      </MDTypography>
+    </MDBox>
   );
 }
 
-PETextItem.defaultProps = {
-  href: "",
+GenesisNodeKey.propTypes = {
+  genesisNodeKey: PropTypes.string.isRequired,
 };
 
-PETextItem.propTypes = {
-  content: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  href: PropTypes.string,
-};
-
-export default PETextItem;
+export default GenesisNodeKey;

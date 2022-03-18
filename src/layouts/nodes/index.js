@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -64,9 +65,7 @@ class NodesDefault extends Component {
   loadNodes() {
     getNodes()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const nV = res.data._embedded.version;
-        // eslint-disable-next-line no-underscore-dangle
         const nN = res.data._embedded.suffrage.map((n) => ({
           node: n.address,
           address: n.conninfo ? n.conninfo.url : "-",

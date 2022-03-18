@@ -32,17 +32,23 @@ import DataTable from "examples/Tables/DataTable";
 import PETextItem from "components/PETextItem";
 
 // Protocon Explorer utils
-import { parseAmount } from "layouts/parse";
+import { parseAmount, parseFee } from "layouts/parse";
 
-function Tokens({ tokens }) {
+function Currencies({ currencies }) {
   const columns = [
-    { Header: "currency", accessor: "currency", width: "30%", align: "left" },
-    { Header: "amount", accessor: "amount", width: "70%", align: "left" },
+    { Header: "currency", accessor: "currency", width: "15%", align: "left" },
+    { Header: "amount", accessor: "amount", width: "20%", align: "right" },
+    { Header: "fee", accessor: "fee", width: "15%", align: "right" },
+    { Header: "receiver", accessor: "receiver", width: "50%", align: "left" },
   ];
 
-  const rows = tokens.map((t) => ({
+  const rows = currencies.map((t) => ({
     currency: <PETextItem content={t.currency} href={`/token/${t.currency}`} />,
     amount: <PETextItem content={parseAmount(t.amount, t.currency)} />,
+    fee: <PETextItem content={t.fee ? `${parseFee(t.fee, t.currency)}` : "-"} />,
+    receiver: (
+      <PETextItem content={t.receiver || "-"} href={t.receiver ? `/account/${t.receiver}` : ""} />
+    ),
   }));
 
   return (
@@ -55,7 +61,7 @@ function Tokens({ tokens }) {
         mb={2}
       >
         <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-          Tokens
+          Currencies
         </MDTypography>
       </MDBox>
       <DataTable table={{ columns, rows }} isSorted={false} noEndBorder />
@@ -63,8 +69,8 @@ function Tokens({ tokens }) {
   );
 }
 
-Tokens.propTypes = {
-  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
+Currencies.propTypes = {
+  currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default Tokens;
+export default Currencies;

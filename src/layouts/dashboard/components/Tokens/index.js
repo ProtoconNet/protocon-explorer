@@ -34,7 +34,7 @@ import Token from "./Token";
 
 function Tokens({ tokens }) {
   const renderTokens = () => (
-    <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+    <MDBox component="ul" display="flex" flexDirection="column">
       {tokens.map((x) => (
         <Token
           key={`${x.currency} ${Math.random()}`}

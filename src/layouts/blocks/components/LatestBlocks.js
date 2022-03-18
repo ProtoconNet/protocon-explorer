@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -35,6 +36,9 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import WideDataTable from "examples/Tables/WideDataTable";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 const getBlocks = () =>
   axios.get(
     `${
@@ -65,19 +69,14 @@ class LatestBlocks extends Component {
   loadBlocks() {
     getBlocks()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const blocks = res.data._embedded.map((b) => ({
-          // eslint-disable-next-line no-underscore-dangle
           hash: b._embedded.hash,
-          // eslint-disable-next-line no-underscore-dangle
           height: b._embedded.height,
-          // eslint-disable-next-line no-underscore-dangle
           confirmed: b._embedded.confirmed_at.replace("T", ", ").replace("Z", ""),
         }));
 
         this.setState({
           blocks,
-          // eslint-disable-next-line no-underscore-dangle
           next: res.data._links.next.href,
         });
       })
@@ -91,20 +90,15 @@ class LatestBlocks extends Component {
     const { next } = this.state;
     getMore(next)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const additional = res.data._embedded.map((b) => ({
-          // eslint-disable-next-line no-underscore-dangle
           hash: b._embedded.hash,
-          // eslint-disable-next-line no-underscore-dangle
           height: b._embedded.height,
-          // eslint-disable-next-line no-underscore-dangle
           confirmed: b._embedded.confirmed_at.replace("T", ", ").replace("Z", ""),
         }));
 
         const { blocks } = this.state;
         this.setState({
           blocks: [...blocks, ...additional],
-          // eslint-disable-next-line no-underscore-dangle
           next: res.data._links.next.href,
         });
       })
@@ -126,58 +120,16 @@ class LatestBlocks extends Component {
 
     const { next, blocks } = this.state;
     const rows = blocks.map((b) => ({
-      hash: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          href={`/block/${b.hash}`}
-          target="_self"
-          rel="noreferrer"
-        >
-          {b.hash}
-        </MDTypography>
-      ),
-      height: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          href={`/block/${b.height}`}
-          target="_self"
-          rel="noreferrer"
-        >
-          {b.height}
-        </MDTypography>
-      ),
-      confirmed: (
-        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-          {b.confirmed}
-        </MDTypography>
-      ),
+      hash: <PETextItem content={b.hash} href={`/block/${b.hash}`} />,
+      height: <PETextItem content={b.height} href={`/block/${b.height}`} />,
+      confirmed: <PETextItem content={b.confirmed} />,
     }));
 
     if (rows.length === 0) {
       rows.push({
-        hash: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        height: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        confirmed: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
+        hash: <PETextItem content="-" />,
+        height: <PETextItem content="-" />,
+        confirmed: <PETextItem content="-" />,
       });
     }
 

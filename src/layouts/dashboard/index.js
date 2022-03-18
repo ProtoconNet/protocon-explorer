@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -110,19 +111,15 @@ class Dashboard extends React.Component {
       tokens: {
         t0: {
           currency: "",
-          amount: "0",
         },
         t1: {
           currency: "",
-          amount: "0",
         },
         t2: {
           currency: "",
-          amount: "0",
         },
         t3: {
           currency: "",
-          amount: "0",
         },
       },
     };
@@ -151,9 +148,7 @@ class Dashboard extends React.Component {
 
     getNodes()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const nV = res.data._embedded.version;
-        // eslint-disable-next-line no-underscore-dangle
         const nN = res.data._embedded.suffrage
           .map((n) => ({
             node: n.address,
@@ -183,20 +178,28 @@ class Dashboard extends React.Component {
 
     getBlocks()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const _blocks = res.data._embedded
-          // eslint-disable-next-line no-underscore-dangle
           .map((x) => x._embedded)
           .map((b) => ({
-            height: <PETextItem content={`${b.height}`} url={`/block/${b.height}`} link />,
-            hash: <PETextItem content={b.hash} url={`/block/${b.hash}`} link />,
+            height: <PETextItem content={`${b.height}`} href={`/block/${b.height}`} link />,
+            hash: <PETextItem content={b.hash} href={`/block/${b.hash}`} link />,
             confirmed: <PETextItem content={b.confirmed_at.replace("T", ", ").replace("Z", "")} />,
           }));
+
+        if (_blocks.length < 10) {
+          const len = _blocks.length;
+          for (let i = 0; i < 10 - len; i += 1) {
+            _blocks.push({
+              height: <PETextItem content="-" />,
+              hash: <PETextItem content="-" />,
+              confirmed: <PETextItem content="-" />,
+            });
+          }
+        }
 
         const { blocks } = this.state;
         if (this.ready) {
           this.setState({
-            // eslint-disable-next-line no-underscore-dangle
             blocks: { ...blocks, rows: _blocks, height: res.data._embedded[0]._embedded.height },
           });
         }
@@ -208,26 +211,34 @@ class Dashboard extends React.Component {
 
     getOperations()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const _operations = res.data._embedded
-          // eslint-disable-next-line no-underscore-dangle
           .map((x) => x._embedded)
           .map((o) => ({
-            height: <PETextItem content={`${o.height}`} url={`/block/${o.height}`} link />,
+            height: <PETextItem content={`${o.height}`} href={`/block/${o.height}`} link />,
             hash: (
               <PETextItem
                 content={o.operation.fact.hash}
-                url={`/operation/${o.operation.fact.hash}`}
+                href={`/operation/${o.operation.fact.hash}`}
                 link
               />
             ),
             confirmed: <PETextItem content={o.confirmed_at.replace("T", ", ").replace("Z", "")} />,
           }));
 
+        if (_operations.length < 10) {
+          const len = _operations.length;
+          for (let i = 0; i < 10 - len; i += 1) {
+            _operations.push({
+              height: <PETextItem content="-" />,
+              hash: <PETextItem content="-" />,
+              confirmed: <PETextItem content="-" />,
+            });
+          }
+        }
+
         const { operations } = this.state;
         if (this.ready) {
           this.setState({
-            // eslint-disable-next-line no-underscore-dangle
             operations: { ...operations, rows: _operations },
           });
         }
@@ -242,7 +253,6 @@ class Dashboard extends React.Component {
         .then((res) => {
           const { tokens } = this.state;
 
-          // eslint-disable-next-line no-underscore-dangle
           const newTokens = Object.keys(res.data._links)
             .map((t) => {
               const splitted = t.split(":");
@@ -277,7 +287,6 @@ class Dashboard extends React.Component {
               }
               return {
                 currency: t,
-                amount: "0",
               };
             });
 
@@ -318,11 +327,9 @@ class Dashboard extends React.Component {
                   t1: newTokens[1],
                   t2: {
                     currency: "",
-                    amount: "0",
                   },
                   t3: {
                     currency: "",
-                    amount: "0",
                   },
                 },
               });
@@ -335,15 +342,12 @@ class Dashboard extends React.Component {
                   t0: newTokens[0],
                   t1: {
                     currency: "",
-                    amount: "0",
                   },
                   t2: {
                     currency: "",
-                    amount: "0",
                   },
                   t3: {
                     currency: "",
-                    amount: "0",
                   },
                 },
               });
@@ -354,19 +358,15 @@ class Dashboard extends React.Component {
                 tokens: {
                   t0: {
                     currency: "",
-                    amount: "0",
                   },
                   t1: {
                     currency: "",
-                    amount: "0",
                   },
                   t2: {
                     currency: "",
-                    amount: "0",
                   },
                   t3: {
                     currency: "",
-                    amount: "0",
                   },
                 },
               });
@@ -379,7 +379,7 @@ class Dashboard extends React.Component {
         });
     }
 
-    setTimeout(() => this.loadInfo((count + 1) % 3, false), 1000);
+    setTimeout(() => this.loadInfo((count + 1) % 3, false), firstLoad ? 0 : 1000);
   }
 
   loadTokenInfo(cid) {
@@ -403,13 +403,10 @@ class Dashboard extends React.Component {
 
     getTokenInfo(cid)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const info = res.data._embedded;
-        const { amount } = info.amount;
 
         const newToken = {
           currency: cid,
-          amount,
         };
 
         if (Object.prototype.hasOwnProperty.call(info.policy.feeer, "amount")) {

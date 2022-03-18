@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -94,11 +95,9 @@ class TokenInfo extends Component {
     const { param } = this.props;
     getTokenInfo(param)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const info = res.data._embedded;
         const { currency, amount } = info.amount;
         const minBalance = info.policy.new_account_min_balance;
-        // eslint-disable-next-line no-underscore-dangle
         const _type = parseType(info.policy.feeer._hint);
         let fee;
         let receiver;

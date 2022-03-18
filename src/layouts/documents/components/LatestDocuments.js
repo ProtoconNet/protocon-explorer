@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -37,6 +38,9 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import WideDataTable from "examples/Tables/WideDataTable";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 const getDocuments = () =>
   axios.get(
     `${
@@ -66,9 +70,7 @@ class LatestDocuments extends Component {
   loadDocuments() {
     getDocuments()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const documents = res.data._embedded.map((doc) => {
-          // eslint-disable-next-line no-underscore-dangle
           const { height, document } = doc._embedded;
           const { doctype } = document.info;
           let type = "UNKNOWN";
@@ -99,7 +101,6 @@ class LatestDocuments extends Component {
 
         this.setState({
           documents,
-          // eslint-disable-next-line no-underscore-dangle
           next: res.data._links.next.href,
         });
       })
@@ -113,9 +114,7 @@ class LatestDocuments extends Component {
     const { next } = this.state;
     getMore(next)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const additional = res.data._embedded.map((doc) => {
-          // eslint-disable-next-line no-underscore-dangle
           const { height, document } = doc._embedded;
           const { doctype } = document.info;
           let type;
@@ -147,7 +146,6 @@ class LatestDocuments extends Component {
         const { documents } = this.state;
         this.setState({
           documents: [...documents, ...additional],
-          // eslint-disable-next-line no-underscore-dangle
           next: res.data._links.next.href,
         });
       })
@@ -170,77 +168,18 @@ class LatestDocuments extends Component {
 
     const { next, documents } = this.state;
     const rows = documents.map((doc) => ({
-      type: (
-        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-          {doc.type}
-        </MDTypography>
-      ),
-      id: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          rel="noreferrer"
-          target="_self"
-          href={`/document/${doc.id}`}
-        >
-          {doc.id}
-        </MDTypography>
-      ),
-      owner: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          rel="noreferrer"
-          target="_self"
-          href={`/account/${doc.owner}`}
-        >
-          {doc.owner}
-        </MDTypography>
-      ),
-      height: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          rel="noreferrer"
-          target="_self"
-          href={`/block/${doc.height}`}
-        >
-          {doc.height}
-        </MDTypography>
-      ),
+      type: <PETextItem content={doc.type} />,
+      id: <PETextItem content={doc.id} href={`/document/${doc.id}`} />,
+      owner: <PETextItem content={doc.owner} href={`/account/${doc.owner}`} />,
+      height: <PETextItem content={doc.height} href={`/block/${doc.height}`} />,
     }));
 
     if (rows.length === 0) {
       rows.push({
-        type: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        id: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        owner: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        height: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
+        type: <PETextItem content="-" />,
+        id: <PETextItem content="-" />,
+        owner: <PETextItem content="-" />,
+        height: <PETextItem content="-" />,
       });
     }
 

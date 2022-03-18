@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -83,14 +84,11 @@ class AccountInfo extends Component {
     const { param } = this.props;
 
     getAccountInfo(param).then((res) => {
-      // eslint-disable-next-line no-underscore-dangle
       const { threshold } = res.data._embedded.keys;
-      // eslint-disable-next-line no-underscore-dangle
       const keys = res.data._embedded.keys.keys.map((k) => ({
         key: k.key,
         weight: k.weight,
       }));
-      // eslint-disable-next-line no-underscore-dangle
       const tokens = res.data._embedded.balance.map((t) => ({
         currency: t.currency,
         amount: t.amount,

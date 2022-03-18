@@ -135,7 +135,7 @@ function Configurator() {
             Auto Load&nbsp;&nbsp;&nbsp;
             <MDTypography
               variant="caption"
-              opacity="0.5"
+              opacity={0.5}
               color={autoLoad ? "success" : "text"}
               fontWeight="medium"
             >

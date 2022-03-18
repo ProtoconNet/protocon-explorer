@@ -64,15 +64,15 @@ function TokenOverview({ currency, amount, minBalance, type, receiver, fee, onCl
           </MDBox>
         </MDBox>
         <PEOverviewAttribute title="Currency ID" value={currency} />
-        <PEOverviewAttribute title="Total Amount" value={parseAmount(amount)} />
+        <PEOverviewAttribute title="Total Amount" value={parseAmount(amount, currency)} />
         <PEOverviewAttribute
           title="Minimal Balance for New Account"
-          value={parseAmount(minBalance)}
+          value={parseAmount(minBalance, currency)}
         />
         <PEOverviewAttribute title="Fee Type" value={type} />
         <PEOverviewAttribute
-          title={parseFee(fee).indexOf("%") >= 0 ? "Fee Ratio" : "Fee Amount"}
-          value={parseFee(fee)}
+          title={parseFee(fee, currency).indexOf("%") >= 0 ? "Fee Ratio" : "Fee Amount"}
+          value={parseFee(fee, currency)}
         />
         <PEOverviewAttribute title="Receiver" value={receiver} url={`/account/${receiver}`} link />
       </MDBox>

@@ -3,18 +3,17 @@
  * Licensed under the MIT license. See LICENSE file in the project root for details.
  */
 
-export function parseAmount(_amt) {
+export function parseAmount(_amt, cid) {
   let amt = _amt;
+
   if (amt.length === 18) {
     amt = `0.${amt}`;
-  }
-  if (amt.length < 18) {
+  } else if (amt.length < 18) {
     for (let i = 0; i < 18 - amt.length; i += 1) {
       amt = `0${amt}`;
     }
     amt = `0.${amt}`;
-  }
-  if (amt.length > 18) {
+  } else if (amt.length > 18) {
     amt = `${amt.substring(0, amt.length - 18)}.${amt.substring(amt.length - 18)}`;
   }
 
@@ -30,10 +29,10 @@ export function parseAmount(_amt) {
     }
   }
 
-  return amt.substring(0, concatIdx);
+  return `${amt.substring(0, concatIdx)} ${cid}`;
 }
 
-export function parseFee(_fee) {
+export function parseFee(_fee, cid) {
   const parseRatio = (ratio) => {
     const r = parseFloat(ratio);
     return `${r * 100} %`;
@@ -42,8 +41,11 @@ export function parseFee(_fee) {
   if (_fee === "-") {
     return _fee;
   }
+  if (_fee === "") {
+    return "-";
+  }
   if (_fee.charAt(0) === "0" && _fee.charAt(1) === ".") {
     return `${parseRatio(_fee)} %`;
   }
-  return parseAmount(_fee);
+  return parseAmount(_fee, cid);
 }

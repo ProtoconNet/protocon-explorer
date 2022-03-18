@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -41,6 +42,9 @@ import WideDataTable from "examples/Tables/WideDataTable";
 // Material Dashboard 2 React base styles
 import colors from "assets/theme-dark/base/colors";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 const getAccounts = (key) =>
   axios.get(
     `${
@@ -77,11 +81,9 @@ class Accounts extends Component {
 
     getAccounts(param)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const accounts = res.data._embedded.map((acc) => acc._embedded.address);
         this.setState({
           accounts,
-          // eslint-disable-next-line no-underscore-dangle
           next: accounts.length >= 10 ? res.data._links.next.href : "",
         });
       })
@@ -98,11 +100,9 @@ class Accounts extends Component {
       getMore(next)
         .then((res) => {
           const { accounts } = this.state;
-          // eslint-disable-next-line no-underscore-dangle
           const additional = res.data._embedded.map((acc) => acc._embedded.address);
           this.setState({
             accounts: [...accounts, additional],
-            // eslint-disable-next-line no-underscore-dangle
             next: res.data._links.next.href,
           });
         })
@@ -121,31 +121,14 @@ class Accounts extends Component {
     const { param } = this.props;
     const columns = [{ Header: "address", accessor: "address", width: "100%", align: "left" }];
     const rows = accounts.map((acc) => ({
-      address: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          href={`/account/${acc}`}
-          target="_self"
-          rel="noreferrer"
-        >
-          {acc}
-        </MDTypography>
-      ),
+      address: <PETextItem content={acc} href={`/account/${acc}`} />,
     }));
 
     if (rows.length < 10) {
       const len = rows.length;
       for (let i = 0; i < 10 - len; i += 1) {
         rows.push({
-          address: (
-            <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-              -
-            </MDTypography>
-          ),
+          address: <PETextItem content="-" />,
         });
       }
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -32,6 +33,9 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import DataTable from "examples/Tables/DataTable";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 const getOperations = (param) =>
   axios.get(
     `${
@@ -63,19 +67,14 @@ class Operations extends Component {
     const { param } = this.props;
     getOperations(param)
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const operations = res.data._embedded.map((o) => ({
-          // eslint-disable-next-line no-underscore-dangle
           hash: o._embedded.operation.fact.hash,
-          // eslint-disable-next-line no-underscore-dangle
           height: o._embedded.height,
-          // eslint-disable-next-line no-underscore-dangle
           confirmed: o._embedded.confirmed_at.replace("T", ", ").replace("Z", ""),
         }));
 
         this.setState({
           operations,
-          // eslint-disable-next-line no-underscore-dangle
           next: res.data._links.next.href,
         });
       })
@@ -90,20 +89,15 @@ class Operations extends Component {
     if (next) {
       getMore(next)
         .then((res) => {
-          // eslint-disable-next-line no-underscore-dangle
           const additional = res.data._embedded.map((o) => ({
-            // eslint-disable-next-line no-underscore-dangle
             hash: o._embedded.operation.fact.hash,
-            // eslint-disable-next-line no-underscore-dangle
             height: o._embedded.height,
-            // eslint-disable-next-line no-underscore-dangle
             confirmed: o._embedded.confirmed_at.replace("T", ", ").replace("Z", ""),
           }));
 
           const { operations } = this.state;
           this.setState({
             operations: [...operations, ...additional],
-            // eslint-disable-next-line no-underscore-dangle
             next: res.data._links.next.href,
           });
         })
@@ -126,49 +120,16 @@ class Operations extends Component {
 
     const { next, operations } = this.state;
     const rows = operations.map((o) => ({
-      hash: (
-        <MDTypography
-          variant="caption"
-          color="link"
-          fontWeight="regular"
-          letterSpacing={1}
-          component="a"
-          href={`/operation/${o.hash}`}
-          target="_self"
-          rel="noreferrer"
-        >
-          {o.hash}
-        </MDTypography>
-      ),
-      confirmed: (
-        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-          {o.confirmed}
-        </MDTypography>
-      ),
-      height: (
-        <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-          {o.height}
-        </MDTypography>
-      ),
+      hash: <PETextItem content={o.hash} href={`/operation/${o.hash}`} />,
+      confirmed: <PETextItem content={o.confirmed} />,
+      height: <PETextItem content={o.height} />,
     }));
 
     if (rows.length === 0) {
       rows.push({
-        hash: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        confirmed: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
-        height: (
-          <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-            -
-          </MDTypography>
-        ),
+        hash: <PETextItem content="-" />,
+        confirmed: <PETextItem content="-" />,
+        height: <PETextItem content="-" />,
       });
     }
 

@@ -104,7 +104,7 @@ function OperationOverview({
 
 // Setting default values for the props of Bill
 OperationOverview.defaultProps = {
-  reason: null,
+  reason: "-",
   sender: "-",
   target: "-",
 };

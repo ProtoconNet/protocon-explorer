@@ -30,9 +30,9 @@ import MDTypography from "components/MDTypography";
 import { Card } from "@mui/material";
 
 // Protocon Explorer utils
-import { parseFee, parseAmount } from "layouts/parse";
+import { parseFee } from "layouts/parse";
 
-function Token({ currency, amount, fee }) {
+function Token({ currency, fee }) {
   return (
     <MDBox key={currency} p={1} mx={0.5} my={1}>
       <Card>
@@ -58,14 +58,11 @@ function Token({ currency, amount, fee }) {
               <MDTypography variant="button" fontWeight="medium" color="link" gutterBottom>
                 {currency}
               </MDTypography>
-              <MDTypography variant="caption" color="text" fontWeight="regular">
-                {parseAmount(amount)}
+              <MDTypography variant="button" color="info" fontWeight="regular" textGradient>
+                {parseFee(fee, currency)}
               </MDTypography>
             </MDBox>
           </MDBox>
-          <MDTypography variant="button" color="info" fontWeight="medium" textGradient>
-            {parseFee(fee)}
-          </MDTypography>
         </MDBox>
       </Card>
     </MDBox>
@@ -73,13 +70,11 @@ function Token({ currency, amount, fee }) {
 }
 
 Token.defaultProps = {
-  amount: 0,
   fee: "-",
 };
 
 Token.propTypes = {
   currency: PropTypes.string.isRequired,
-  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   fee: PropTypes.string,
 };
 

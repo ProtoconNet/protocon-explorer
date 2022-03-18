@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Copyright (c) 2022 Protocon Network. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for details.
@@ -55,7 +56,6 @@ const getTokenInfo = (cid) =>
 function tokenTemplate(currency) {
   return {
     currency,
-    amount: "0",
     fee: "-",
   };
 }
@@ -72,7 +72,6 @@ class Tokens extends Component {
 
     getTokens()
       .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
         const tokens = Object.keys(res.data._links)
           .map((t) => {
             const splitted = t.split(":");
@@ -90,13 +89,10 @@ class Tokens extends Component {
 
         tokens.forEach((t, idx) => {
           getTokenInfo(t.currency).then((tRes) => {
-            // eslint-disable-next-line no-underscore-dangle
             const info = tRes.data._embedded;
-            const { amount } = info.amount;
 
             const token = {
               currency: t.currency,
-              amount,
             };
 
             if (Object.prototype.hasOwnProperty.call(info.policy.feeer, "amount")) {
@@ -157,8 +153,13 @@ class Tokens extends Component {
                   </MDTypography>
                 </MDBox>
                 <MDBox p={2} mx={1}>
-                  <MDTypography variant="caption" fontWeight="medium" color="text">
-                    {" "}
+                  <MDTypography
+                    variant="caption"
+                    color="text"
+                    fontWeight="regular"
+                    letterSpacing={1}
+                  >
+                    CURRENCY ID - FEE AMOUNT/RATIO
                   </MDTypography>
                 </MDBox>
               </Card>

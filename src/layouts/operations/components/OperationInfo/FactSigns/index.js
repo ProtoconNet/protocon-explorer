@@ -28,6 +28,9 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import DataTable from "examples/Tables/DataTable";
 
+// Protocon Explorer React components
+import PETextItem from "components/PETextItem";
+
 function FactSigns({ factSigns }) {
   const columns = [
     { Header: "signer", accessor: "signer", width: "35%", align: "left" },
@@ -36,32 +39,13 @@ function FactSigns({ factSigns }) {
   ];
 
   const rows = factSigns.map((fs) => ({
-    signer: (
-      <MDTypography
-        variant="caption"
-        color="link"
-        fontWeight="regular"
-        letterSpacing={1}
-        component="a"
-        rel="noreferrer"
-        href={`/accounts/${fs.signer}`}
-        target="_self"
-      >
-        {fs.signer}
-        {/* {fs.signer.length >= 27 ? `${fs.signer.substring(0, 27)}...` : fs.signer} */}
-      </MDTypography>
-    ),
+    signer: <PETextItem content={fs.signer} href={`/accounts/${fs.signer}`} />,
     signature: (
-      <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-        {/* {fs.signature} */}
-        {fs.signature.length >= 45 ? `${fs.signature.substring(0, 45)}...` : fs.signature}
-      </MDTypography>
+      <PETextItem
+        content={fs.signature.length >= 45 ? `${fs.signature.substring(0, 45)}...` : fs.signature}
+      />
     ),
-    signed: (
-      <MDTypography variant="caption" color="text" fontWeight="regular" letterSpacing={1}>
-        {fs.signed}
-      </MDTypography>
-    ),
+    signed: <PETextItem content={fs.signed} />,
   }));
 
   return (
