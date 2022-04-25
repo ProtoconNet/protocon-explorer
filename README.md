@@ -37,5 +37,5 @@ $ npm run build
 
 MIT License
 
-- Copyright 2021 [Creative Tim](https://www.creative-tim.com?ref=readme-mdr)
+- Copyright 2022 [Creative Tim](https://www.creative-tim.com?ref=readme-mdr)
 - Creative Tim [license](https://www.creative-tim.com/license?ref=readme-mdr)
