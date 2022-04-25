@@ -26,6 +26,8 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React base styles
 import typography from "assets/theme/base/typography";
 
+import pac from "../../../package.json";
+
 function Footer({ company, links, marginTop }) {
   const { href, name } = company;
   const { size } = typography;
@@ -67,6 +69,7 @@ function Footer({ company, links, marginTop }) {
           </MDTypography>
           All rights reserved
         </Link>
+        &nbsp;&nbsp;v{pac.version}
       </MDBox>
       <MDBox
         component="ul"
@@ -85,11 +88,6 @@ function Footer({ company, links, marginTop }) {
         })}
       >
         {renderLinks()}
-        {/* <MDBox px={2} lineHeight={1}>
-          <MDTypography variant="caption" fontWeight="regular" opacity={0.4}>
-            Optimized for Chrome
-          </MDTypography>
-        </MDBox> */}
       </MDBox>
     </MDBox>
   );
