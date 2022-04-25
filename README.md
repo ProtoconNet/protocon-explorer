@@ -28,11 +28,16 @@ $ npm install
 $ npm start
 ```
 
+### Test
+
+No test script yet.
+
 ### Build
 
 ```sh
 $ npm run build
 ```
+
 ## License
 
 MIT License
