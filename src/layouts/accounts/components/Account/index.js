@@ -58,6 +58,7 @@ class AccountInfo extends Component {
         keys: [],
       },
       tokens: [],
+      owner: "",
     };
 
     this.loadAccountsInfo();
@@ -84,30 +85,38 @@ class AccountInfo extends Component {
     const { param } = this.props;
 
     getAccountInfo(param).then((res) => {
-      const { threshold } = res.data._embedded.keys;
-      const keys = res.data._embedded.keys.keys.map((k) => ({
-        key: k.key,
-        weight: k.weight,
-      }));
-      const tokens = res.data._embedded.balance.map((t) => ({
+      const data = res.data._embedded;
+      const isKeys = Object.prototype.hasOwnProperty.call(data, "keys") && data.keys;
+      const keys = isKeys
+        ? {
+            keys: data.keys.keys.map((k) => ({
+              key: k.key,
+              weight: k.weight,
+            })),
+            threshold: data.keys.threshold,
+          }
+        : {
+            keys: [],
+            threshold: 0,
+          };
+      const tokens = data.balance.map((t) => ({
         currency: t.currency,
         amount: t.amount,
       }));
+      const owner = Object.prototype.hasOwnProperty.call(data, "owner") ? data.owner : "";
 
       this.setState({
-        keys: {
-          threshold,
-          keys,
-        },
+        keys,
         tokens,
         data: res.data,
+        owner,
       });
     });
   }
 
   render() {
     const { param } = this.props;
-    const { isShow, data, keys, tokens } = this.state;
+    const { isShow, data, keys, tokens, owner } = this.state;
 
     return isShow ? (
       <Raw data={data} onClick={() => this.handleShow()} />
@@ -115,11 +124,15 @@ class AccountInfo extends Component {
       <MDBox py={5} px={1} mx={0.5}>
         <Card id="delete-account">
           <MDBox pt={1} pb={2} px={2}>
-            <AccountOverview address={param} onClick={() => this.handleShow()} />
+            <AccountOverview address={param} owner={owner} onClick={() => this.handleShow()} />
           </MDBox>
-          <MDBox py={1} px={2}>
-            <Keys threshold={keys.threshold} keys={keys.keys} />
-          </MDBox>
+          {keys.threshold !== 0 ? (
+            <MDBox py={1} px={2}>
+              <Keys threshold={keys.threshold} keys={keys.keys} />
+            </MDBox>
+          ) : (
+            false
+          )}
           <MDBox py={1} px={2}>
             <Tokens tokens={tokens} />
           </MDBox>

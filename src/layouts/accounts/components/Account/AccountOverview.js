@@ -35,7 +35,7 @@ import { Icon } from "@mui/material";
 // Protocon Explorer React components
 import PEOverviewAttribute from "components/PEOverviewAttribute";
 
-function AccountOverview({ address, onClick }) {
+function AccountOverview({ address, owner, onClick }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -61,14 +61,21 @@ function AccountOverview({ address, onClick }) {
             </MDButton>
           </MDBox>
         </MDBox>
-        <PEOverviewAttribute title="Account Address" value={address} />
+        <PEOverviewAttribute title="Type" value={owner ? "Contract Account" : "General Account"} />
+        <PEOverviewAttribute title="Address" value={address} />
+        {owner && <PEOverviewAttribute title="Owner" value={owner} url={`/account/${owner}`} />}
       </MDBox>
     </MDBox>
   );
 }
 
+AccountOverview.defaultProps = {
+  owner: "",
+};
+
 // Typechecking props for the Bill
 AccountOverview.propTypes = {
+  owner: PropTypes.string,
   address: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
