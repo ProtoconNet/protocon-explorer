@@ -59,6 +59,10 @@ class TokenInfo extends Component {
       fee: "-",
       receiver: "-",
       isShow: false,
+      exchangeMinAmount: null,
+      feefier: null,
+      exchangecid: null,
+      exchangeable: null,
     };
 
     this.loadInfo();
@@ -89,6 +93,9 @@ class TokenInfo extends Component {
       if (_hint.indexOf("ratio") >= 0) {
         return "ratio";
       }
+      if (_hint.indexOf("feefi") >= 0) {
+        return "feefi";
+      }
       return "nil";
     };
 
@@ -99,6 +106,15 @@ class TokenInfo extends Component {
         const { currency, amount } = info.amount;
         const minBalance = info.policy.new_account_min_balance;
         const _type = parseType(info.policy.feeer._hint);
+        const exchangeMinAmount = Object.prototype.hasOwnProperty.call(
+          info.policy.feeer,
+          "exchange-min-amount"
+        )
+          ? info.policy.feeer["exchange-min-amount"]
+          : info.policy.feeer.exchangeminamount;
+        let exchangeable = null;
+        let exchangecid = null;
+        let feefier = null;
         let fee;
         let receiver;
 
@@ -110,6 +126,13 @@ class TokenInfo extends Component {
           case "ratio":
             fee = info.policy.feeer.ratio;
             receiver = info.policy.feeer.receiver;
+            break;
+          case "feefi":
+            fee = info.policy.feeer.amount;
+            receiver = info.policy.feeer.receiver;
+            exchangeable = info.policy.feeer.exchangeable;
+            exchangecid = info.policy.feeer.exchangecid;
+            feefier = info.policy.feeer.feefier;
             break;
           default:
             fee = "-";
@@ -124,6 +147,10 @@ class TokenInfo extends Component {
           type: _type,
           fee,
           receiver,
+          exchangeMinAmount,
+          feefier,
+          exchangecid,
+          exchangeable,
         });
       })
       .catch((e) => {
@@ -133,7 +160,20 @@ class TokenInfo extends Component {
   }
 
   render() {
-    const { isShow, data, currency, amount, minBalance, type, receiver, fee } = this.state;
+    const {
+      isShow,
+      data,
+      currency,
+      amount,
+      minBalance,
+      type,
+      receiver,
+      fee,
+      exchangeMinAmount,
+      exchangeable,
+      exchangecid,
+      feefier,
+    } = this.state;
 
     return isShow ? (
       <Raw data={data} onClick={() => this.handleShow()} />
@@ -148,6 +188,10 @@ class TokenInfo extends Component {
               type={type}
               receiver={receiver}
               fee={fee}
+              exchangeMinAmount={exchangeMinAmount}
+              exchangeable={exchangeable}
+              exchangecid={exchangecid}
+              feefier={feefier}
               onClick={() => this.handleShow()}
             />
           </MDBox>

@@ -38,7 +38,19 @@ import PEOverviewAttribute from "components/PEOverviewAttribute";
 // Protocon Explorer utils
 import { parseAmount, parseFee } from "layouts/parse";
 
-function TokenOverview({ currency, amount, minBalance, type, receiver, fee, onClick }) {
+function TokenOverview({
+  currency,
+  amount,
+  minBalance,
+  type,
+  receiver,
+  fee,
+  exchangeable,
+  exchangeMinAmount,
+  exchangecid,
+  feefier,
+  onClick,
+}) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -63,22 +75,48 @@ function TokenOverview({ currency, amount, minBalance, type, receiver, fee, onCl
             </MDButton>
           </MDBox>
         </MDBox>
-        <PEOverviewAttribute title="Currency ID" value={currency} />
+        <PEOverviewAttribute
+          title="Currency ID"
+          value={type === "feefi" ? `${currency} (exchangeable: ${exchangeable})` : currency}
+        />
         <PEOverviewAttribute title="Total Amount" value={parseAmount(amount, currency)} />
         <PEOverviewAttribute
           title="Minimal Balance for New Account"
           value={parseAmount(minBalance, currency)}
         />
-        <PEOverviewAttribute title="Fee Type" value={type} />
+        <PEOverviewAttribute title="Feeer Type" value={type} />
+        {exchangecid && (
+          <PEOverviewAttribute
+            title="Exchange Token ID"
+            value={exchangecid}
+            url={`/token/${exchangecid}`}
+            link
+          />
+        )}
+        {exchangeMinAmount && (
+          <PEOverviewAttribute
+            title="Exchange Min Amount"
+            value={parseAmount(exchangeMinAmount, "")}
+          />
+        )}
         <PEOverviewAttribute
           title={parseFee(fee, currency).indexOf("%") >= 0 ? "Fee Ratio" : "Fee Amount"}
           value={parseFee(fee, currency)}
         />
         <PEOverviewAttribute title="Receiver" value={receiver} url={`/account/${receiver}`} link />
+        {feefier && (
+          <PEOverviewAttribute title="Feefier" value={feefier} url={`/account/${feefier}`} link />
+        )}
       </MDBox>
     </MDBox>
   );
 }
+
+TokenOverview.defaultProps = {
+  exchangeable: false,
+  exchangecid: null,
+  feefier: null,
+};
 
 // Typechecking props for the Bill
 TokenOverview.propTypes = {
@@ -89,6 +127,10 @@ TokenOverview.propTypes = {
   receiver: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  exchangeMinAmount: PropTypes.string.isRequired,
+  exchangeable: PropTypes.bool,
+  exchangecid: PropTypes.string,
+  feefier: PropTypes.string,
 };
 
 export default TokenOverview;
