@@ -96,7 +96,7 @@ function TokenOverview({
         {exchangeMinAmount && (
           <PEOverviewAttribute
             title="Exchange Min Amount"
-            value={parseAmount(exchangeMinAmount, "")}
+            value={parseAmount(exchangeMinAmount, currency)}
           />
         )}
         <PEOverviewAttribute
