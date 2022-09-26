@@ -156,7 +156,7 @@ class LatestOperations extends Component {
                   border={`1px solid ${colors.info.main}`}
                 >
                   <MDTypography variant="h6" color="white">
-                    Lateset Operations
+                    Latest Operations
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3}>

@@ -151,7 +151,7 @@ class LatestBlocks extends Component {
                   border={`1px solid ${colors.info.main}`}
                 >
                   <MDTypography variant="h6" color="white">
-                    Lateset Blocks
+                    Latest Blocks
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3}>

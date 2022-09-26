@@ -201,7 +201,7 @@ class LatestDocuments extends Component {
                   border={`1px solid ${colors.info.main}`}
                 >
                   <MDTypography variant="h6" color="white">
-                    Lateset Documents
+                    Latest Documents
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3}>
